@@ -15,12 +15,13 @@ datasource db {
 }
 
 model user {
-  id        Int      @id @default(autoincrement())
-  username  String   @unique
+  id        Int         @id @default(autoincrement())
+  username  String      @unique
   password  String
   ressons   resson[]
-  role      roleUser @default(external_user)
-  createdAt DateTime @default(now())
+  post      news_post[]
+  role      roleUser    @default(external_user)
+  createdAt DateTime    @default(now())
 }
 
 enum roleUser {
@@ -40,9 +41,10 @@ model news_post {
   id         Int        @id @default(autoincrement())
   title      String
   content    String
-  image_url  String?
-  slug       String
-  author     String
+  image_url  String
+  slug       String     @unique
+  author     user       @relation(fields: [authorId], references: [id])
+  authorId   Int
   is_publish onPublish  @default(unpublish)
   categoryId Int
   category   categories @relation(fields: [categoryId], references: [id])
