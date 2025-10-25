@@ -43,6 +43,7 @@ app.use('/nomfour',jimpitRoutes);
 app.use('/nomfour',ressonRoutes);
 
 
-app.listen(PORT, () => {
-    console.log('server is running');
-})
+// app.listen(PORT, () => {
+//     console.log('server is running');
+// })
+module.exports = app;
