@@ -24,7 +24,8 @@ app.use(express.json());
 
 app.get('/', (req, res) => {
     res.send('')
-    console.log('success')
+    console.log('server success running')
+    res.status(200).end();
 })
 app.use((req, res) => {
   res.status(404).json({ message: "Endpoint not found" });
