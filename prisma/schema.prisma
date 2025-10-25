@@ -1,0 +1,90 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model user {
+  id        Int         @id @default(autoincrement())
+  username  String      @unique
+  password  String
+  ressons   resson[]
+  post      news_post[]
+  role      roleUser    @default(external_user)
+  createdAt DateTime    @default(now())
+}
+
+enum roleUser {
+  own
+  admin
+  external_user
+}
+
+model categories {
+  id        Int         @id @default(autoincrement())
+  name      String
+  posts     news_post[]
+  createdAt DateTime    @default(now())
+}
+
+model news_post {
+  id         Int        @id @default(autoincrement())
+  title      String
+  content    String
+  image_url  String
+  slug       String     @unique
+  author     user       @relation(fields: [authorId], references: [id])
+  authorId   Int
+  is_publish onPublish  @default(unpublish)
+  categoryId Int
+  category   categories @relation(fields: [categoryId], references: [id])
+  createdAt  DateTime   @default(now())
+  updateAt   DateTime   @default(now())
+}
+
+enum onPublish {
+  publish
+  unpublish
+}
+
+model jadwal_jimpit {
+  id        Int      @id @default(autoincrement())
+  members   String
+  note      String
+  dayId     Int
+  day       days     @relation(fields: [dayId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model days {
+  id        Int             @id @default(autoincrement())
+  name      String
+  jadwals   jadwal_jimpit[]
+  createdAt DateTime        @default(now())
+}
+
+model resson {
+  id        Int      @id @default(autoincrement())
+  reassonId Int
+  resson    user     @relation(fields: [reassonId], references: [id])
+  content   String
+  createdAt DateTime @default(now())
+  updateAt  DateTime @default(now())
+}
+
+model feedback {
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String
+  CreatedAt DateTime @default(now())
+}
