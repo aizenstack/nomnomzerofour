@@ -2,17 +2,17 @@ const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
 
-const authRoutes = require("./router/authRoutes");
-const categoriesRoutes = require("./router/categoriesRoutes");
-const dashboardRoutes = require("./router/dashboardRoutes");
-const daysRoutes = require("./router/daysRoutes");
-const feedbackRoutes = require("./router/feedbackRoutes");
-const jimpitRoutes = require("./router/jimpitRoutes");
-const newsRoutes = require("./router/newsRoutes");
-const ressonRoutes = require("./router/ressonRoutes");
-const uploadRoutes = require("./router/uploadRoutes");
+const authRoutes = require("../router/authRoutes");
+const categoriesRoutes = require("../router/categoriesRoutes");
+const dashboardRoutes = require("../router/dashboardRoutes");
+const daysRoutes = require("../router/daysRoutes");
+const feedbackRoutes = require("../router/feedbackRoutes");
+const jimpitRoutes = require("../router/jimpitRoutes");
+const newsRoutes = require("../router/newsRoutes");
+const ressonRoutes = require("../router/ressonRoutes");
+const uploadRoutes = require("../router/uploadRoutes");
 
-const authMiddleware = require("./router/utils/authMiddleware");
+const { authMiddleware } = require("../router/utils/authMiddleware");
 
 dotenv.config();
 
@@ -36,6 +36,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/nomfour", authRoutes);
+
 app.use("/nomfour", authMiddleware, categoriesRoutes);
 app.use("/nomfour", authMiddleware, dashboardRoutes);
 app.use("/nomfour", authMiddleware, daysRoutes);
