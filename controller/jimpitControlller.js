@@ -10,13 +10,15 @@ const createdJimpitTeams = async (req, res) => {
 
     const newTeams = await prisma.jadwal_jimpit.create({
       data: {
-        members,
+        members: Array.isArray(members) ? JSON.stringify(members) : members,
         note,
         dayId: parseInt(day_id),
       },
     });
+
     res.status(201).json({ message: "Teams created successfully" });
-  } catch {
+  } catch (err) {
+    console.error(err);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
@@ -39,13 +41,15 @@ const updateJimpitTeams = async (req, res) => {
     await prisma.jadwal_jimpit.update({
       where: { id: parseInt(id) },
       data: {
-        members,
+        members: Array.isArray(members) ? JSON.stringify(members) : members,
         note,
         dayId: parseInt(day_id),
       },
     });
+
     res.status(200).json({ message: "Teams updated successfully" });
-  } catch {
+  } catch (err) {
+    console.error(err);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
@@ -75,15 +79,16 @@ const deleteJimpitTeams = async (req, res) => {
 const getAllJimpitTeams = async (req, res) => {
   try {
     const teams = await prisma.jadwal_jimpit.findMany({
-      include: {
-        day: true, 
-      },
-      orderBy: {
-        id: "desc",
-      },
+      include: { day: true },
+      orderBy: { id: "desc" },
     });
 
-    res.status(200).json(teams);
+    const formattedTeams = teams.map((t) => ({
+      ...t,
+      members: t.members ? JSON.parse(t.members) : [],
+    }));
+
+    res.status(200).json(formattedTeams);
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Internal Server Error" });
@@ -93,18 +98,23 @@ const getAllJimpitTeams = async (req, res) => {
 const getJimpitTeamById = async (req, res) => {
   try {
     const { id } = req.params;
+
     const team = await prisma.jadwal_jimpit.findUnique({
       where: { id: parseInt(id) },
-      include: {
-        day: true,
-      },
+      include: { day: true },
     });
 
     if (!team)
       return res.status(404).json({ message: "Team not found" });
 
-    res.status(200).json(team);
-  } catch {
+    const formattedTeam = {
+      ...team,
+      members: team.members ? JSON.parse(team.members) : [],
+    };
+
+    res.status(200).json(formattedTeam);
+  } catch (err) {
+    console.error(err);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
