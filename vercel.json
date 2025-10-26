@@ -4,20 +4,10 @@
     {
       "src": "src/index.js",
       "use": "@vercel/node",
-      "config": {
-        "maxLambdaSize": "15mb"
-      }
+      "config": { "maxLambdaSize": "15mb" }
     }
   ],
-  "build": {
-    "env": {
-      "NODE_ENV": "production"
-    }
-  },
   "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/src/index.js"
-    }
+    { "src": "/(.*)", "dest": "src/index.js" }
   ]
 }
