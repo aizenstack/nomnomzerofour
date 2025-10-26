@@ -28,6 +28,7 @@ const registerAccount = async (req, res) => {
 
     res.status(201).json({
       message: "User created successfully",
+      data: user,
     });
   } catch (err) {
     console.error(err);
@@ -40,9 +41,7 @@ const loginAccount = async (req, res) => {
 
   try {
     const user = await prisma.user.findUnique({
-      where: {
-        username,
-      },
+      where: { username },
     });
 
     if (!user) return res.status(401).json({ message: "username salah" });
@@ -56,8 +55,84 @@ const loginAccount = async (req, res) => {
       { expiresIn: "1h" }
     );
 
-    res.json({ token });
+    res.json({
+      message: "Login success",
+      token,
+      user: {
+        id: user.id,
+        username: user.username,
+      },
+    });
   } catch (err) {
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await prisma.user.findMany({
+      select: {
+        id: true,
+        username: true,
+        createdAt: true,
+      },
+      orderBy: {
+        id: "asc",
+      },
+    });
+
+    res.status(200).json({
+      message: "All users fetched successfully!",
+      data: users,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+const getUserById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const user = await prisma.user.findUnique({
+      where: { id: parseInt(id) },
+      select: {
+        id: true,
+        username: true,
+        createdAt: true,
+      },
+    });
+
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    res.status(200).json({
+      message: "User fetched successfully!",
+      data: user,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+const deleteUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const existing = await prisma.user.findUnique({
+      where: { id: parseInt(id) },
+    });
+
+    if (!existing) return res.status(404).json({ message: "User not found" });
+
+    await prisma.user.delete({
+      where: { id: parseInt(id) },
+    });
+
+    res.status(200).json({ message: "User deleted successfully!" });
+  } catch (err) {
+    console.error(err);
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -65,4 +140,7 @@ const loginAccount = async (req, res) => {
 module.exports = {
   registerAccount,
   loginAccount,
+  getAllUsers,
+  getUserById,
+  deleteUser,
 };
