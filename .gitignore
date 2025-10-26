@@ -5,6 +5,17 @@ node_modules/
 
 # Testing
 /coverage
+__tests__/
+*.test.js
+*.spec.js
+test/
+tests/
+*.test.ts
+*.spec.ts
+.nyc_output/
+.nyc_coverage/
+.nyc_output/
+.nyc_coverage/
 
 # Production
 /build
