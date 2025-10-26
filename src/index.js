@@ -1,50 +1,60 @@
-const cors = require('cors');
+const cors = require("cors");
 const express = require("express");
 const path = require("path");
 const dotenv = require("dotenv");
-const authRoutes = require("./router/authRoutes");
-const authMiddleware = require("./router/utils/authMiddleware");
-const newsRoutes = require("./router/newsRoutes");
-const uploadsRoutes = require("./router/uploadRoutes");
-const categoriesRoutes = require("./router/categoriesRoutes");
-const daysRoutes = require("./router/daysRoutes");
-const jimpitRoutes = require("./router/jimpitRoutes");
-const ressonRoutes = require("./router/ressonRoutes");
+const fs = require("fs");
+
+const authRoutes = require("../router/authRoutes");
+const authMiddleware = require("../router/utils/authMiddleware");
+const newsRoutes = require("../router/newsRoutes");
+const uploadsRoutes = require("../router/uploadRoutes");
+const categoriesRoutes = require("../router/categoriesRoutes");
+const daysRoutes = require("../router/daysRoutes");
+const jimpitRoutes = require("../router/jimpitRoutes");
+const ressonRoutes = require("../router/ressonRoutes");
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3180;
 
-// CORS Configuration
 const corsOptions = {
-  origin: function (origin, callback) {
-    const allowedOrigins = [
-      "http://localhost:5173",
-      "http://localhost:3180",
-      "https://nomzerofour.vercel.app",
-      "https://nomnomzerofour.vercel.app"
-    ];
-    
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  origin: [
+    "http://localhost:5173",
+    "http://localhost:3180",
+    "https://nomzerofour.vercel.app",
+    "https://nomnomzerofour.vercel.app"
+  ],
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"]
 };
 
-// Middleware
 app.use(cors(corsOptions));
-app.options('*', cors(corsOptions));
+app.options("*", cors(corsOptions));
+
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", req.headers.origin || "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+  );
+  res.header(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, DELETE, PATCH, OPTIONS"
+  );
+  res.header("Access-Control-Allow-Credentials", "true");
+  if (req.method === "OPTIONS") return res.sendStatus(200);
+  next();
+});
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use("/uploads", express.static(path.join(__dirname, "..", "uploads")));
 
-// Routes
+if (process.env.NODE_ENV !== "production" && fs.existsSync(path.join(__dirname, "..", "uploads"))) {
+  app.use("/uploads", express.static(path.join(__dirname, "..", "uploads")));
+}
+
 app.use("/nomfour", authRoutes);
 app.use("/nomfour", authMiddleware, newsRoutes);
 app.use("/nomfour", authMiddleware, uploadsRoutes);
@@ -53,32 +63,29 @@ app.use("/nomfour", authMiddleware, daysRoutes);
 app.use("/nomfour", authMiddleware, jimpitRoutes);
 app.use("/nomfour", authMiddleware, ressonRoutes);
 
-// Test route
 app.get("/", (req, res) => {
   res.status(200).json({ status: "ok", message: "Server is running" });
 });
 
-// 404 handler
 app.use((req, res) => {
   res.status(404).json({ status: "error", message: "Endpoint not found" });
 });
 
-// Error handler
 app.use((err, req, res, next) => {
-  console.error("Error:", err.stack);
+  console.error("Error:", err.message);
   res.status(500).json({
     status: "error",
-    message: process.env.NODE_ENV === "production" 
-      ? "Internal server error" 
-      : err.message,
-    stack: process.env.NODE_ENV === "development" ? err.stack : undefined
+    message:
+      process.env.NODE_ENV === "production"
+        ? "Internal server error"
+        : err.message
   });
 });
 
 if (require.main === module) {
   app.listen(PORT, () => {
-    console.log(`✅ Server running`);
-    console.log(`🌍 Environment: ${process.env.NODE_ENV || "development"}`);
+    console.log(`Server running `);
+    console.log(`Environment: ${process.env.NODE_ENV || "development"}`);
   });
 }
 
