@@ -1,5 +1,4 @@
 const express = require("express");
-const cors = require("cors");
 const path = require("path");
 const dotenv = require("dotenv");
 const authRoutes = require("../router/authRoutes");
@@ -16,21 +15,24 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-const corsOptions = {
-  origin: [
-    "http://localhost:5173",
-    "http://localhost:3000",
-    "https://nomzerofour.vercel.app",
-  ],
-  credentials: true,
-  optionsSuccessStatus: 200,
-  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-};
-
-app.use(cors(corsOptions));
-
-app.options("*", cors(corsOptions));
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://localhost:3000",
+  "https://nomzerofour.vercel.app"
+];
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+  }
+  res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
+  }
+  next();
+});
 
 app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static(path.join(__dirname, "..", "uploads")));
@@ -45,7 +47,6 @@ app.use("/nomfour", authMiddleware, jimpitRoutes);
 app.use("/nomfour", authMiddleware, ressonRoutes);
 
 app.get("/", (req, res) => {
-  console.log("Server is running");
   res.status(200).json({ status: "ok", message: "Server is running" });
 });
 
@@ -66,8 +67,7 @@ app.use((err, req, res, next) => {
 
 if (require.main === module) {
   app.listen(PORT, () => {
-    console.log(`Server is running`);
-    console.log(`Environment: ${process.env.NODE_ENV || "development"}`);
+    console.log(`Server running on port ${PORT}`);
   });
 }
 
