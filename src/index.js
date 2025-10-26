@@ -82,11 +82,4 @@ app.use((err, req, res, next) => {
   });
 });
 
-if (require.main === module) {
-  app.listen(PORT, () => {
-    console.log(`Server running `);
-    console.log(`Environment: ${process.env.NODE_ENV || "development"}`);
-  });
-}
-
 module.exports = app;
