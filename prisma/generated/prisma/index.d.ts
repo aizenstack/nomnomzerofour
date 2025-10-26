@@ -9484,13 +9484,13 @@ export namespace Prisma {
 
   export type categoriesWhereUniqueInput = Prisma.AtLeast<{
     id?: number
+    name?: string
     AND?: categoriesWhereInput | categoriesWhereInput[]
     OR?: categoriesWhereInput[]
     NOT?: categoriesWhereInput | categoriesWhereInput[]
-    name?: StringFilter<"categories"> | string
     createdAt?: DateTimeFilter<"categories"> | Date | string
     posts?: News_postListRelationFilter
-  }, "id">
+  }, "id" | "name">
 
   export type categoriesOrderByWithAggregationInput = {
     id?: SortOrder
