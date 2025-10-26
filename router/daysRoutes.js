@@ -1,8 +1,10 @@
 const express = require('express');
-const {addDays} = require('../controller/daysController')
-
 const router = express.Router();
+const { addDays, getAllDays, deleteDays, updateDays } = require('../controllers/daysController');
 
-router.post('/day', addDays)
+router.get('/days', getAllDays);
+router.post('/days', addDays);
+router.put('/days/:id', updateDays);
+router.delete('/days/:id', deleteDays);
 
 module.exports = router;
