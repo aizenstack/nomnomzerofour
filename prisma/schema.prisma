@@ -32,7 +32,7 @@ enum roleUser {
 
 model categories {
   id        Int         @id @default(autoincrement())
-  name      String
+  name      String      @unique
   posts     news_post[]
   createdAt DateTime    @default(now())
 }

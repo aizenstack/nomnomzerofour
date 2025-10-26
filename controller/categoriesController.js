@@ -4,16 +4,13 @@ const prisma = new PrismaClient();
 const addCategory = async (req, res) => {
   try {
     const { name } = req.body;
-    if (!name) return res.status(400).json({ message: "Name is required" });
+    if (!name || !name.trim()) return res.status(400).json({ message: "Name is required" });
 
-    const exists = await prisma.categories.findUnique({
-      where: { name },
-    });
-
+    const exists = await prisma.categories.findFirst({ where: { name: name.trim() } });
     if (exists) return res.status(400).json({ message: "Category already exists" });
 
     const newCategory = await prisma.categories.create({
-      data: { name },
+      data: { name: name.trim() },
     });
 
     res.status(201).json({
@@ -21,10 +18,11 @@ const addCategory = async (req, res) => {
       data: newCategory,
     });
   } catch (err) {
-    console.error(err);
+    console.error('Add category error:', err);
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
 
 const getAllCategories = async (req, res) => {
   try {
