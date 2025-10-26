@@ -23,7 +23,7 @@ const addDays = async (req, res) => {
 const getAllDays = async (req, res) => {
     try {
         const days = await prisma.days.findMany({
-            orderBy: { created_at: 'desc' },
+            orderBy: { createdAt: 'desc' },
         });
         return res.status(200).json({ data: days });
     } catch (error) {
@@ -31,6 +31,7 @@ const getAllDays = async (req, res) => {
         return res.status(500).json({ message: 'Gagal memuat data hari!' });
     }
 };
+
 
 const deleteDays = async (req, res) => {
     try {
