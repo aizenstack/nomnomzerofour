@@ -31,7 +31,7 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.options("*", cors(corsOptions));
+app.options(/.*/, cors(corsOptions));
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", req.headers.origin || "*");
@@ -51,7 +51,10 @@ app.use((req, res, next) => {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-if (process.env.NODE_ENV !== "production" && fs.existsSync(path.join(__dirname, "..", "uploads"))) {
+if (
+  process.env.NODE_ENV !== "production" &&
+  fs.existsSync(path.join(__dirname, "..", "uploads"))
+) {
   app.use("/uploads", express.static(path.join(__dirname, "..", "uploads")));
 }
 
