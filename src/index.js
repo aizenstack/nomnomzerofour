@@ -15,34 +15,37 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3180;
 
+const cors = require('cors');
+
 const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:3180",
   "https://nomzerofour.vercel.app",
-  "https://nomnomzerofour.vercel.app",
+  "https://nomnomzerofour.vercel.app"
 ];
 
-app.use((req, res, next) => {
-  const origin = req.headers.origin;
-  if (allowedOrigins.includes(origin)) {
-    res.setHeader("Access-Control-Allow-Origin", origin);
-  }
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, PUT, DELETE, PATCH, OPTIONS"
-  );
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Content-Type, Authorization, X-Requested-With"
-  );
-  res.setHeader("Access-Control-Allow-Credentials", "true");
+// Konfigurasi CORS
+const corsOptions = {
+  origin: function (origin, callback) {
+    // allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
+};
 
-  if (req.method === "OPTIONS") {
-    return res.status(200).end();
-  }
+// Gunakan CORS middleware
+app.use(cors(corsOptions));
 
-  next();
-});
+// Handle preflight requests
+app.options('*', cors(corsOptions));
 
 app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static(path.join(__dirname, "..", "uploads")));
