@@ -29,7 +29,12 @@ const addFeedback = async (req, res) => {
 const getAllFeedback = async (req, res) => {
   try {
     const feedbacks = await prisma.feedback.findMany({
-      orderBy: { CreatedAt: "desc" },
+      include: {
+        user: {
+          select: { username: true },
+        },
+      },
+      orderBy: { createdAt: "desc" },
     });
 
     res.status(200).json({
@@ -41,6 +46,7 @@ const getAllFeedback = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
 
 const deleteFeedback = async (req, res) => {
   try {
