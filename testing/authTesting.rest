@@ -1,0 +1,15 @@
+POST https://nomnomzerofour.vercel.app/nomfour/register
+Content-Type: application/json
+
+{
+    "username": "admin ",
+    "password": "admin"
+}
+
+###
+POST https://nomnomzerofour.vercel.app/nomfour/day
+Content-Type: application/json
+
+{
+    "name": "Sabtu"
+}
