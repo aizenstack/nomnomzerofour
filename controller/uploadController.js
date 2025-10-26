@@ -1,16 +1,25 @@
+const cloudinary = require('../utils/cloudinary');
+
 const uploadImage = async (req, res) => {
-    try {
-        const file = req.file; 
+  try {
+    if (!req.file) return res.status(400).json({ message: 'No Image Upload' });
 
-        if (!file) return res.status(400).json({ message: 'No Image Upload' });
+    const result = await cloudinary.uploader.upload(req.file.path, {
+      folder: 'news', // folder di Cloudinary
+      use_filename: true,
+      unique_filename: false
+    });
 
-        const imageUrl = `/uploads/news/${file.filename}`;
-        return res.status(200).json({ 
-            message: 'Image Uploaded Successfully',
-            url: imageUrl
-        });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: 'Internal Server Error' });
-    }
+    return res.status(200).json({
+      message: 'Image Uploaded Successfully',
+      url: result.secure_url
+    });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+module.exports = {
+  uploadImage
 };
