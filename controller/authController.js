@@ -29,7 +29,6 @@ const registerAccount = async (req, res) => {
       data: {
         username,
         password: hashedPassword,
-        role: "external_user", 
       },
     });
 
