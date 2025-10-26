@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 
 const prisma = new PrismaClient();
 
+// CREATE
 const createResson = async (req, res) => {
   try {
     const token = req.headers.authorization?.split(" ")[1];
@@ -12,7 +13,8 @@ const createResson = async (req, res) => {
     const userId = decoded.id;
 
     const { content } = req.body;
-    if (!content) return res.status(400).json({ message: "Content is required" });
+    if (!content)
+      return res.status(400).json({ message: "Content is required" });
 
     await prisma.resson.create({
       data: {
@@ -28,24 +30,18 @@ const createResson = async (req, res) => {
   }
 };
 
-const getAllRessons = async (req, res) => {
+// GET ALL
+const getAllResson = async (req, res) => {
   try {
-    const ressons = await prisma.resson.findMany({
+    const ress = await prisma.resson.findMany({
       include: {
         user: {
-          select: {
-            id: true,
-            username: true,
-            email: true,
-          },
+          select: { username: true }, // cuma ambil username aja
         },
       },
-      orderBy: {
-        id: "desc",
-      },
+      orderBy: { id: "desc" },
     });
-
-    res.status(200).json(ressons);
+    res.status(200).json(ress);
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Internal Server Error" });
@@ -54,5 +50,5 @@ const getAllRessons = async (req, res) => {
 
 module.exports = {
   createResson,
-  getAllRessons,
+  getAllResson,
 };
