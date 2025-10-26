@@ -1,20 +1,26 @@
 const { PrismaClient } = require("../prisma/generated/prisma");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const JWT_SECRET = process.env.JWT_SECRET;
 
 const prisma = new PrismaClient();
+const JWT_SECRET = process.env.JWT_SECRET;
 
 const registerAccount = async (req, res) => {
-  const { username, password } = req.body;
-
   try {
-    const existingUser = await prisma.user.findFirst({
+    let { username, password } = req.body;
+
+    username = username.trim();
+
+    if (!username || !password) {
+      return res.status(400).json({ message: "Username dan password wajib diisi" });
+    }
+
+    const existingUser = await prisma.user.findUnique({
       where: { username },
     });
 
     if (existingUser) {
-      return res.status(400).json({ message: "username sudah digunakan" });
+      return res.status(400).json({ message: "Username sudah digunakan" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -23,48 +29,63 @@ const registerAccount = async (req, res) => {
       data: {
         username,
         password: hashedPassword,
+        role: "external_user", 
       },
     });
 
-    res.status(201).json({
+    return res.status(201).json({
       message: "User created successfully",
-      data: user,
-    });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Internal server error" });
-  }
-};
-
-const loginAccount = async (req, res) => {
-  const { username, password } = req.body;
-
-  try {
-    const user = await prisma.user.findUnique({
-      where: { username },
-    });
-
-    if (!user) return res.status(401).json({ message: "username salah" });
-
-    const validpw = await bcrypt.compare(password, user.password);
-    if (!validpw) return res.status(401).json({ message: "password salah" });
-
-    const token = jwt.sign(
-      { userId: user.id, username: username },
-      JWT_SECRET,
-      { expiresIn: "1h" }
-    );
-
-    res.json({
-      message: "Login success",
-      token,
-      user: {
+      data: {
         id: user.id,
         username: user.username,
       },
     });
   } catch (err) {
-    res.status(500).json({ message: "Internal server error" });
+    console.error("REGISTER ERROR:", err);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+const loginAccount = async (req, res) => {
+  try {
+    let { username, password } = req.body;
+    username = username.trim();
+
+    const user = await prisma.user.findUnique({
+      where: { username },
+    });
+
+    if (!user) {
+      return res.status(401).json({ message: "Username salah" });
+    }
+
+    const validpw = await bcrypt.compare(password, user.password);
+    if (!validpw) {
+      return res.status(401).json({ message: "Password salah" });
+    }
+
+    const token = jwt.sign(
+      {
+        userId: user.id,
+        username: user.username,
+        role: user.role,
+      },
+      JWT_SECRET,
+      { expiresIn: "1h" }
+    );
+
+    return res.json({
+      message: "Login success",
+      token,
+      user: {
+        id: user.id,
+        username: user.username,
+        role: user.role,
+      },
+    });
+  } catch (err) {
+    console.error("LOGIN ERROR:", err);
+    return res.status(500).json({ message: "Internal server error" });
   }
 };
 
@@ -74,20 +95,19 @@ const getAllUsers = async (req, res) => {
       select: {
         id: true,
         username: true,
+        role: true,
         createdAt: true,
       },
-      orderBy: {
-        id: "asc",
-      },
+      orderBy: { id: "asc" },
     });
 
-    res.status(200).json({
-      message: "All users fetched successfully!",
+    return res.status(200).json({
+      message: "All users fetched successfully",
       data: users,
     });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Internal server error" });
+    console.error("GET ALL USERS ERROR:", err);
+    return res.status(500).json({ message: "Internal server error" });
   }
 };
 
@@ -100,19 +120,22 @@ const getUserById = async (req, res) => {
       select: {
         id: true,
         username: true,
+        role: true,
         createdAt: true,
       },
     });
 
-    if (!user) return res.status(404).json({ message: "User not found" });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
 
-    res.status(200).json({
-      message: "User fetched successfully!",
+    return res.status(200).json({
+      message: "User fetched successfully",
       data: user,
     });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Internal server error" });
+    console.error("GET USER BY ID ERROR:", err);
+    return res.status(500).json({ message: "Internal server error" });
   }
 };
 
@@ -124,16 +147,18 @@ const deleteUser = async (req, res) => {
       where: { id: parseInt(id) },
     });
 
-    if (!existing) return res.status(404).json({ message: "User not found" });
+    if (!existing) {
+      return res.status(404).json({ message: "User not found" });
+    }
 
     await prisma.user.delete({
       where: { id: parseInt(id) },
     });
 
-    res.status(200).json({ message: "User deleted successfully!" });
+    return res.status(200).json({ message: "User deleted successfully!" });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Internal server error" });
+    console.error("DELETE USER ERROR:", err);
+    return res.status(500).json({ message: "Internal server error" });
   }
 };
 
