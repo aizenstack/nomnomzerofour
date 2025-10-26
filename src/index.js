@@ -37,14 +37,14 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/nomfour", authRoutes);
 
-app.use("/nomfour", authMiddleware, categoriesRoutes);
-app.use("/nomfour", authMiddleware, dashboardRoutes);
-app.use("/nomfour", authMiddleware, daysRoutes);
-app.use("/nomfour", authMiddleware, feedbackRoutes);
-app.use("/nomfour", authMiddleware, jimpitRoutes);
-app.use("/nomfour", authMiddleware, newsRoutes);
-app.use("/nomfour", authMiddleware, ressonRoutes);
-app.use("/nomfour", authMiddleware, uploadRoutes);
+app.use("/nomfour", categoriesRoutes);
+app.use("/nomfour", dashboardRoutes);
+app.use("/nomfour", daysRoutes);
+app.use("/nomfour", feedbackRoutes);
+app.use("/nomfour", jimpitRoutes);
+app.use("/nomfour", newsRoutes);
+app.use("/nomfour", ressonRoutes);
+app.use("/nomfour", uploadRoutes);
 
 app.get("/", (req, res) => {
   res.status(200).json({ status: "ok", message: "Server is running" });
