@@ -7,9 +7,55 @@ function generateSlug(title) {
 }
 
 const { PrismaClient } = require("../prisma/generated/prisma");
-const path = require('path')
-const fs  = require('fs')
+const path = require("path");
+const fs = require("fs");
 const prisma = new PrismaClient();
+
+const getAllNewsPosts = async (req, res) => {
+  try {
+    const news = await prisma.news_post.findMany({
+      include: {
+        category: true,
+        author: true,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    res.status(200).json({
+      message: "All news fetched successfully!",
+      data: news,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+const getNewsBySlug = async (req, res) => {
+  try {
+    const { slug } = req.params;
+
+    const news = await prisma.news_post.findUnique({
+      where: { slug },
+      include: {
+        category: true,
+        author: true,
+      },
+    });
+
+    if (!news) return res.status(404).json({ message: "News not found!" });
+
+    res.status(200).json({
+      message: "News fetched successfully!",
+      data: news,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
 
 const addNewsPost = async (req, res) => {
   try {
@@ -131,4 +177,6 @@ module.exports = {
   addNewsPost,
   updateNewsPost,
   deleteNewsPost,
+  getAllNewsPosts,
+  getNewsBySlug,
 };
