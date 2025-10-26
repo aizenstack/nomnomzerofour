@@ -14,14 +14,38 @@ const createResson = async (req, res) => {
     const { content } = req.body;
     if (!content) return res.status(400).json({ message: "Content is required" });
 
-    const newResson = await prisma.resson.create({
+    await prisma.resson.create({
       data: {
         content,
         userId: parseInt(userId),
       },
     });
 
-    res.status(201).json({ message: "Resson created successfully"});
+    res.status(201).json({ message: "Resson created successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+const getAllRessons = async (req, res) => {
+  try {
+    const ressons = await prisma.resson.findMany({
+      include: {
+        user: {
+          select: {
+            id: true,
+            username: true,
+            email: true,
+          },
+        },
+      },
+      orderBy: {
+        id: "desc",
+      },
+    });
+
+    res.status(200).json(ressons);
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Internal Server Error" });
@@ -30,5 +54,5 @@ const createResson = async (req, res) => {
 
 module.exports = {
   createResson,
+  getAllRessons,
 };
-
