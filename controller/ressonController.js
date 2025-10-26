@@ -3,7 +3,6 @@ const jwt = require("jsonwebtoken");
 
 const prisma = new PrismaClient();
 
-// CREATE
 const createResson = async (req, res) => {
   try {
     const token = req.headers.authorization?.split(" ")[1];
@@ -30,7 +29,6 @@ const createResson = async (req, res) => {
   }
 };
 
-// GET ALL
 const getAllResson = async (req, res) => {
   try {
     const ress = await prisma.resson.findMany({
