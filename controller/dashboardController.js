@@ -6,7 +6,7 @@ const getDashboardStats = async (req, res) => {
     const totalFeedback = await prisma.feedback.count();
     const newFeedbackThisWeek = await prisma.feedback.count({
       where: {
-        CreatedAt: {
+        createdAt: {
           gte: new Date(new Date().setDate(new Date().getDate() - 7)),
         },
       },
@@ -15,7 +15,7 @@ const getDashboardStats = async (req, res) => {
     const totalUsers = await prisma.user.count();
     const newUsersThisMonth = await prisma.user.count({
       where: {
-        CreatedAt: {
+        createdAt: {
           gte: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
         },
       },
