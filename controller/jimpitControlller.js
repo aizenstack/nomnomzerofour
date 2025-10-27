@@ -99,16 +99,7 @@ const getAllJimpitTeams = async (req, res) => {
         },
         orderBy: { id: "desc" },
         skip,
-        take: limit,
-        select: {
-          id: true,
-          members: true,
-          note: true,
-          dayId: true,
-          day: true,
-          createdAt: true,
-          updatedAt: true
-        }
+        take: limit
       }),
       prisma.jadwal_jimpit.count({ where })
     ]);
