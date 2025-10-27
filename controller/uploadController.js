@@ -1,6 +1,5 @@
 const cloudinary = require('cloudinary').v2;
 
-// Upload dari file
 const uploadImage = async (req, res) => {
   try {
     if (!req.file) {
@@ -10,10 +9,8 @@ const uploadImage = async (req, res) => {
       });
     }
 
-    // Convert buffer to base64
     const base64Image = `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`;
     
-    // Upload to Cloudinary
     const result = await cloudinary.uploader.upload(base64Image, {
       folder: 'news',
       public_id: `news_${Date.now()}`,
@@ -30,7 +27,6 @@ const uploadImage = async (req, res) => {
   } catch (error) {
     console.error('Upload Error:', error);
     
-    // Check for specific Cloudinary errors
     let errorMessage = 'Failed to upload image';
     
     if (error.http_code === 401) {
@@ -50,7 +46,6 @@ const uploadImage = async (req, res) => {
   }
 };
 
-// Upload dari URL
 const uploadFromUrl = async (req, res) => {
   try {
     const { imageUrl } = req.body;
@@ -62,7 +57,6 @@ const uploadFromUrl = async (req, res) => {
       });
     }
 
-    // Validasi URL
     try {
       new URL(imageUrl);
     } catch (e) {
@@ -72,7 +66,6 @@ const uploadFromUrl = async (req, res) => {
       });
     }
 
-    // Upload ke Cloudinary
     const result = await cloudinary.uploader.upload(imageUrl, {
       folder: 'news',
       public_id: `news_${Date.now()}`,
