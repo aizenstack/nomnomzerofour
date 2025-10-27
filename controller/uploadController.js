@@ -1,4 +1,4 @@
-const cloudinary = require('../utils/cloudinary');
+const cloudinary = require('../router/utils/cloudinary');
 
 const uploadImage = async (req, res) => {
   try {
