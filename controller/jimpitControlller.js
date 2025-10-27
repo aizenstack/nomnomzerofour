@@ -80,12 +80,10 @@ const getAllJimpitTeams = async (req, res) => {
   console.log('getAllJimpitTeams called with query:', req.query);
   
   try {
-    // Add pagination (default: page 1, 10 items per page)
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
     const skip = (page - 1) * limit;
 
-    // Add filtering options
     const where = {};
     if (req.query.day_id) {
       where.dayId = parseInt(req.query.day_id);
