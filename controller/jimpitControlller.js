@@ -78,20 +78,60 @@ const deleteJimpitTeams = async (req, res) => {
 
 const getAllJimpitTeams = async (req, res) => {
   try {
-    const teams = await prisma.jadwal_jimpit.findMany({
-      include: { day: true },
-      orderBy: { id: "desc" },
+    // Add pagination (default: page 1, 10 items per page)
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+
+    // Add filtering options
+    const where = {};
+    if (req.query.day_id) {
+      where.dayId = parseInt(req.query.day_id);
+    }
+
+    const [teams, total] = await Promise.all([
+      prisma.jadwal_jimpit.findMany({
+        where,
+        include: { day: true },
+        orderBy: { id: "desc" },
+        skip,
+        take: limit,
+      }),
+      prisma.jadwal_jimpit.count({ where })
+    ]);
+
+    // Parse members safely
+    const formattedTeams = teams.map((t) => {
+      try {
+        return {
+          ...t,
+          members: t.members ? JSON.parse(t.members) : [],
+        };
+      } catch (error) {
+        console.error(`Error parsing members for team ${t.id}:`, error);
+        return {
+          ...t,
+          members: [],
+          error: "Error parsing members data"
+        };
+      }
     });
 
-    const formattedTeams = teams.map((t) => ({
-      ...t,
-      members: t.members ? JSON.parse(t.members) : [],
-    }));
-
-    res.status(200).json(formattedTeams);
+    res.status(200).json({
+      data: formattedTeams,
+      meta: {
+        total,
+        page,
+        totalPages: Math.ceil(total / limit),
+        limit
+      }
+    });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Internal Server Error" });
+    res.status(500).json({ 
+      message: "Internal Server Error",
+      error: process.env.NODE_ENV === 'development' ? err.message : undefined
+    });
   }
 };
 
