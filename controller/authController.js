@@ -5,10 +5,49 @@ const jwt = require("jsonwebtoken");
 const prisma = new PrismaClient();
 const JWT_SECRET = process.env.JWT_SECRET;
 
+// const registerAccount = async (req, res) => {
+//   try {
+//     let { username, password } = req.body;
+
+//     username = username.trim();
+
+//     if (!username || !password) {
+//       return res.status(400).json({ message: "Username dan password wajib diisi" });
+//     }
+
+//     const existingUser = await prisma.user.findUnique({
+//       where: { username },
+//     });
+
+//     if (existingUser) {
+//       return res.status(400).json({ message: "Username sudah digunakan" });
+//     }
+
+//     const hashedPassword = await bcrypt.hash(password, 10);
+
+//     const user = await prisma.user.create({
+//       data: {
+//         username,
+//         password: hashedPassword,
+//       },
+//     });
+
+//     return res.status(201).json({
+//       message: "User created successfully",
+//       data: {
+//         id: user.id,
+//         username: user.username,
+//       },
+//     });
+//   } catch (err) {
+//     console.error("REGISTER ERROR:", err);
+//     return res.status(500).json({ message: "Internal server error" });
+//   }
+// };
+
 const registerAccount = async (req, res) => {
   try {
-    let { username, password } = req.body;
-
+    let { username, password, role } = req.body;
     username = username.trim();
 
     if (!username || !password) {
@@ -23,12 +62,30 @@ const registerAccount = async (req, res) => {
       return res.status(400).json({ message: "Username sudah digunakan" });
     }
 
+    const token = req.headers.authorization?.split(" ")[1];
+    if (!token) return res.status(401).json({ message: "Token tidak ada" });
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const currentUser = await prisma.user.findUnique({
+      where: { id: decoded.id },
+    });
+
+    if (role && currentUser.role !== "own") {
+      return res.status(403).json({ message: "Hanya owner yang bisa menentukan role" });
+    }
+
+    const validRoles = ["own", "admin", "external_user"];
+    if (role && !validRoles.includes(role)) {
+      return res.status(400).json({ message: "Role tidak valid" });
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = await prisma.user.create({
       data: {
         username,
         password: hashedPassword,
+        role: role || "external_user",
       },
     });
 
@@ -37,6 +94,7 @@ const registerAccount = async (req, res) => {
       data: {
         id: user.id,
         username: user.username,
+        role: user.role,
       },
     });
   } catch (err) {
