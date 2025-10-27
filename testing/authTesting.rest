@@ -28,8 +28,74 @@ POST https://nomnomzerofour.vercel.app/nomfour/categories
 Content-Type: application/json
 
 {
-    "name": "Berita"
+    "name": "Sport"
 }
 
 ###
 GET https://nomnomzerofour.vercel.app/nomfour/days
+
+### 1. Login to get JWT token
+POST https://nomnomzerofour.vercel.app/nomfour/login
+Content-Type: application/json
+
+{
+  "username": "superadmin",
+  "password": "12345"
+}
+
+### 2. Get all news (no auth required)
+GET https://nomnomzerofour.vercel.app/nomfour/news
+Content-Type: application/json
+
+### 3. Create new news (requires auth)
+POST https://nomnomzerofour.vercel.app/nomfour/news
+Content-Type: application/json
+
+###
+POST https://nomnomzerofour.vercel.app/nomfour/news
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInVzZXJuYW1lIjoic3VwZXJhZG1pbiIsInJvbGUiOiJvd24iLCJpYXQiOjE3NjE1Mjk2NjIsImV4cCI6MTc2MTUzMzI2Mn0.8RGN4Fgsjw6VeJNkVL-IOcowucqjGUuJa1nkve7TFek
+
+{
+  "title": "Berita Testing Baru",
+  "content": "Ini adalah berita testing untuk memastikan endpoint berfungsi",
+  "image_url": "https://res.cloudinary.com/ddjgd16dz/image/upload/v1234567/news/test.jpg",
+  "authorId": 5,
+  "categoryId": 1
+}
+
+### 4. Update news (requires auth)
+PATCH https://nomnomzerofour.vercel.app/nomfour/news/1
+Content-Type: application/json
+
+{
+  "title": "Berita Terbaru (Updated in Production)",
+  "content": "Konten berita yang sudah diupdate di production..."
+}
+
+### 5. Delete news (requires auth)
+DELETE https://nomnomzerofour.vercel.app/nomfour/news/1
+
+### 6. Upload image (requires auth)
+POST https://nomnomzerofour.vercel.app/nomfour/upload
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary
+
+------WebKitFormBoundary
+Content-Disposition: form-data; name="image"; filename="sample.jpg"
+Content-Type: image/jpeg
+
+< path/ke/gambar/anda.jpg
+------WebKitFormBoundary--
+
+###
+### Upload Image
+POST https://nomnomzerofour.vercel.app/nomfour/image
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInVzZXJuYW1lIjoic3VwZXJhZG1pbiIsInJvbGUiOiJvd24iLCJpYXQiOjE3NjE1Mjk2NjIsImV4cCI6MTc2MTUzMzI2Mn0.8RGN4Fgsjw6VeJNkVL-IOcowucqjGUuJa1nkve7TFek
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="image"; filename="ceweCute.jpg"
+Content-Type: image/jpg
+
+< C:/Users/User/Downloads/ceweCute.jpg
+------WebKitFormoundary7MA4YWxkTrZu0gW--
