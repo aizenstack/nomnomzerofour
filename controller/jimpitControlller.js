@@ -117,16 +117,14 @@ const getAllJimpitTeams = async (req, res) => {
 
     console.log(`Found ${teams.length} teams out of ${total} total`);
 
-    // Parse members safely and format the response
     const formattedTeams = teams.map(team => {
       try {
         const members = team.members ? JSON.parse(team.members) : [];
         console.log(`Team ${team.id} has ${members.length} members`);
         
-        // Create a clean team object with all necessary fields
         return {
           id: team.id,
-          members: members, // This will be the parsed array
+          members: members, 
           note: team.note,
           day_id: team.dayId,
           day: team.day,
