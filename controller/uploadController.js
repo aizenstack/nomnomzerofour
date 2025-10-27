@@ -1,25 +1,102 @@
-const cloudinary = require('../router/utils/cloudinary');
+const cloudinary = require('cloudinary').v2;
 
+// Upload dari file
 const uploadImage = async (req, res) => {
   try {
-    if (!req.file) return res.status(400).json({ message: 'No Image Upload' });
+    if (!req.file) {
+      return res.status(400).json({ 
+        status: 'error',
+        message: 'No image file provided' 
+      });
+    }
 
-    const result = await cloudinary.uploader.upload(req.file.path, {
-      folder: 'news', // folder di Cloudinary
-      use_filename: true,
-      unique_filename: false
+    // Convert buffer to base64
+    const base64Image = `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`;
+    
+    // Upload to Cloudinary
+    const result = await cloudinary.uploader.upload(base64Image, {
+      folder: 'news',
+      public_id: `news_${Date.now()}`,
+      resource_type: 'auto'
     });
 
     return res.status(200).json({
-      message: 'Image Uploaded Successfully',
-      url: result.secure_url
+      status: 'success',
+      message: 'Image uploaded successfully',
+      url: result.secure_url,
+      public_id: result.public_id
     });
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ message: 'Internal Server Error' });
+
+  } catch (error) {
+    console.error('Upload Error:', error);
+    
+    // Check for specific Cloudinary errors
+    let errorMessage = 'Failed to upload image';
+    
+    if (error.http_code === 401) {
+      errorMessage = 'Invalid Cloudinary credentials';
+    } else if (error.http_code === 400) {
+      errorMessage = 'Invalid image format or size';
+    } else if (error.message && error.message.includes('File too large')) {
+      errorMessage = 'File size exceeds the 5MB limit';
+    } else if (process.env.NODE_ENV === 'development') {
+      errorMessage = error.message;
+    }
+    
+    return res.status(500).json({
+      status: 'error',
+      message: errorMessage
+    });
+  }
+};
+
+// Upload dari URL
+const uploadFromUrl = async (req, res) => {
+  try {
+    const { imageUrl } = req.body;
+    
+    if (!imageUrl) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'URL gambar diperlukan'
+      });
+    }
+
+    // Validasi URL
+    try {
+      new URL(imageUrl);
+    } catch (e) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'URL tidak valid'
+      });
+    }
+
+    // Upload ke Cloudinary
+    const result = await cloudinary.uploader.upload(imageUrl, {
+      folder: 'news',
+      public_id: `news_${Date.now()}`,
+      resource_type: 'auto'
+    });
+
+    return res.status(200).json({
+      status: 'success',
+      message: 'Gambar berhasil diupload dari URL',
+      url: result.secure_url,
+      public_id: result.public_id
+    });
+
+  } catch (error) {
+    console.error('Upload from URL Error:', error);
+    return res.status(500).json({
+      status: 'error',
+      message: 'Gagal mengupload gambar dari URL',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
   }
 };
 
 module.exports = {
-  uploadImage
+  uploadImage,
+  uploadFromUrl
 };
