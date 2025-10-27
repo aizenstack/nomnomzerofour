@@ -94,8 +94,19 @@ const getAllJimpitTeams = async (req, res) => {
     const [teams, total] = await Promise.all([
       prisma.jadwal_jimpit.findMany({
         where,
-        include: { 
-          day: true 
+        select: {
+          id: true,
+          members: true,
+          note: true,
+          dayId: true,
+          day: {
+            select: {
+              id: true,
+              name: true,
+              createdAt: true
+            }
+          },
+          createdAt: true
         },
         orderBy: { id: "desc" },
         skip,
