@@ -100,25 +100,41 @@ const getAllJimpitTeams = async (req, res) => {
         orderBy: { id: "desc" },
         skip,
         take: limit,
+        select: {
+          id: true,
+          members: true,
+          note: true,
+          dayId: true,
+          day: true,
+          createdAt: true,
+          updatedAt: true
+        }
       }),
       prisma.jadwal_jimpit.count({ where })
     ]);
 
     console.log(`Found ${teams.length} teams out of ${total} total`);
 
-    // Parse members safely
-    const formattedTeams = teams.map((t) => {
+    // Parse members safely and format the response
+    const formattedTeams = teams.map(team => {
       try {
-        const members = t.members ? JSON.parse(t.members) : [];
-        console.log(`Team ${t.id} has ${members.length} members`);
+        const members = team.members ? JSON.parse(team.members) : [];
+        console.log(`Team ${team.id} has ${members.length} members`);
+        
+        // Create a clean team object with all necessary fields
         return {
-          ...t,
-          members,
+          id: team.id,
+          members: members, // This will be the parsed array
+          note: team.note,
+          day_id: team.dayId,
+          day: team.day,
+          created_at: team.createdAt,
+          updated_at: team.updatedAt
         };
       } catch (error) {
-        console.error(`Error parsing members for team ${t.id}:`, error);
+        console.error(`Error parsing members for team ${team.id}:`, error);
         return {
-          ...t,
+          ...team,
           members: [],
           error: "Error parsing members data"
         };
@@ -131,7 +147,7 @@ const getAllJimpitTeams = async (req, res) => {
       meta: {
         total,
         page,
-        totalPages: Math.ceil(total / limit),
+        total_pages: Math.ceil(total / limit),
         limit
       }
     };
