@@ -6,43 +6,71 @@ const prisma = new PrismaClient();
 const createResson = async (req, res) => {
   try {
     const token = req.headers.authorization?.split(" ")[1];
-    if (!token) return res.status(401).json({ message: "Token tidak ada" });
+    if (!token) return res.status(401).json({ success: false, message: "Token tidak ada" });
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decoded.id;
+    const reassonId = decoded.id;
 
     const { content } = req.body;
-    if (!content)
-      return res.status(400).json({ message: "Content is required" });
+    if (!content) {
+      return res.status(400).json({ success: false, message: "Content is required" });
+    }
 
-    await prisma.resson.create({
+    const newResson = await prisma.resson.create({
       data: {
         content,
-        userId: parseInt(userId),
+        reassonId: parseInt(reassonId),
       },
+      include: {
+        resson: {
+          select: {
+            id: true,
+            username: true
+          }
+        }
+      }
     });
 
-    res.status(201).json({ message: "Resson created successfully" });
+    res.status(201).json({ 
+      success: true, 
+      message: "Resson created successfully",
+      data: newResson
+    });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Internal Server Error" });
+    if (err.name === 'JsonWebTokenError') {
+      return res.status(401).json({ success: false, message: "Invalid token" });
+    }
+    res.status(500).json({ success: false, message: "Internal Server Error" });
   }
 };
 
 const getAllResson = async (req, res) => {
   try {
-    const ress = await prisma.resson.findMany({
+    const ressons = await prisma.resson.findMany({
       include: {
-        user: {
-          select: { username: true }, // cuma ambil username aja
-        },
+        resson: {
+          select: { 
+            id: true,
+            username: true 
+          }
+        }
       },
-      orderBy: { id: "desc" },
+      orderBy: { 
+        createdAt: "desc" 
+      },
     });
-    res.status(200).json(ress);
+    
+    res.status(200).json({ 
+      success: true, 
+      data: ressons 
+    });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Internal Server Error" });
+    res.status(500).json({ 
+      success: false, 
+      message: "Internal Server Error" 
+    });
   }
 };
 
