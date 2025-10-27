@@ -104,39 +104,3 @@ Content-Type: image/jpg
 GET https://nomnomzerofour.vercel.app/nomfour/nomnomzerofour.vercel.app/nomfour/jimpit
 Content-Type: application/json
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInVzZXJuYW1lIjoic3VwZXJhZG1pbiIsInJvbGUiOiJvd24iLCJpYXQiOjE3NjE1Mzc4OTksImV4cCI6MTc2MTU0MTQ5OX0.UKmmiLjJadiPJZ-YMjYQeUH1NrWq2IdP-90i5bHfyeg
-
-
-// testing/jimpitTesting.rest
-@baseUrl = https://nomnomzerofour.vercel.app/nomfour
-
-### Get All Jimpit Teams
-GET {{baseUrl}}/jimpit
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInVzZXJuYW1lIjoic3VwZXJhZG1pbiIsInJvbGUiOiJvd24iLCJpYXQiOjE3NjE1Mzc4OTksImV4cCI6MTc2MTU0MTQ5OX0.UKmmiLjJadiPJZ-YMjYQeUH1NrWq2IdP-90i5bHfyeg
-### Get Jimpit Team by ID
-GET {{baseUrl}}/jimpit/1
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInVzZXJuYW1lIjoic3VwZXJhZG1pbiIsInJvbGUiOiJvd24iLCJpYXQiOjE3NjE1MzQ0MTAsImV4cCI6MTc2MTUzODAxMH0.O2aXt0sdlwUBvmYOqvqXdjNuvDajASMacYmXq4da2c8
-
-### Create New Jimpit Team
-POST {{baseUrl}}/jimpit
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInVzZXJuYW1lIjoic3VwZXJhZG1pbiIsInJvbGUiOiJvd24iLCJpYXQiOjE3NjE1MzQ0MTAsImV4cCI6MTc2MTUzODAxMH0.O2aXt0sdlwUBvmYOqvqXdjNuvDajASMacYmXq4da2c8
-Content-Type: application/json
-
-{
-  "members": "John, Jane, Doe",
-  "note": "Tim Jimpit Pagi",
-  "dayId": 1
-}
-
-### Update Jimpit Team
-PATCH {{baseUrl}}/jimpit/1
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInVzZXJuYW1lIjoic3VwZXJhZG1pbiIsInJvbGUiOiJvd24iLCJpYXQiOjE3NjE1MzQ0MTAsImV4cCI6MTc2MTUzODAxMH0.O2aXt0sdlwUBvmYOqvqXdjNuvDajASMacYmXq4da2c8
-Content-Type: application/json
-
-{
-  "members": "John, Jane, Doe, Smith",
-  "note": "Tim Jimpit Pagi (Updated)"
-}
-
-### Delete Jimpit Team
-DELETE {{baseUrl}}/jimpit/1
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInVzZXJuYW1lIjoic3VwZXJhZG1pbiIsInJvbGUiOiJvd24iLCJpYXQiOjE3NjE1MzQ0MTAsImV4cCI6MTc2MTUzODAxMH0.O2aXt0sdlwUBvmYOqvqXdjNuvDajASMacYmXq4da2c8
