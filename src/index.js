@@ -11,6 +11,7 @@ const jimpitRoutes = require("../router/jimpitRoutes");
 const newsRoutes = require("../router/newsRoutes");
 const ressonRoutes = require("../router/ressonRoutes");
 const uploadRoutes = require("../router/uploadRoutes");
+const notedRoutes = require('../router/notedRoutes')
 
 const { authMiddleware } = require("../router/utils/authMiddleware");
 
@@ -45,6 +46,7 @@ app.use("/nomfour", jimpitRoutes);
 app.use("/nomfour", newsRoutes);
 app.use("/nomfour", ressonRoutes);
 app.use("/nomfour", uploadRoutes);
+app.use("/nomfour", notedRoutes);
 
 app.get("/", (req, res) => {
   res.status(200).json({ status: "ok", message: "Server is running" });
