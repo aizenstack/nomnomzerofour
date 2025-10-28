@@ -11405,16 +11405,16 @@ export namespace Prisma {
   export type notedCreateInput = {
     content: string
     is_active?: $Enums.an_active
-    createdAt: Date | string
-    updateAt: Date | string
+    createdAt?: Date | string
+    updateAt?: Date | string
   }
 
   export type notedUncheckedCreateInput = {
     id?: number
     content: string
     is_active?: $Enums.an_active
-    createdAt: Date | string
-    updateAt: Date | string
+    createdAt?: Date | string
+    updateAt?: Date | string
   }
 
   export type notedUpdateInput = {
@@ -11436,8 +11436,8 @@ export namespace Prisma {
     id?: number
     content: string
     is_active?: $Enums.an_active
-    createdAt: Date | string
-    updateAt: Date | string
+    createdAt?: Date | string
+    updateAt?: Date | string
   }
 
   export type notedUpdateManyMutationInput = {
