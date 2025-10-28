@@ -5049,7 +5049,6 @@ export namespace Prisma {
   export type Jadwal_jimpitMinAggregateOutputType = {
     id: number | null
     members: string | null
-    note: string | null
     dayId: number | null
     createdAt: Date | null
   }
@@ -5057,7 +5056,6 @@ export namespace Prisma {
   export type Jadwal_jimpitMaxAggregateOutputType = {
     id: number | null
     members: string | null
-    note: string | null
     dayId: number | null
     createdAt: Date | null
   }
@@ -5065,7 +5063,6 @@ export namespace Prisma {
   export type Jadwal_jimpitCountAggregateOutputType = {
     id: number
     members: number
-    note: number
     dayId: number
     createdAt: number
     _all: number
@@ -5085,7 +5082,6 @@ export namespace Prisma {
   export type Jadwal_jimpitMinAggregateInputType = {
     id?: true
     members?: true
-    note?: true
     dayId?: true
     createdAt?: true
   }
@@ -5093,7 +5089,6 @@ export namespace Prisma {
   export type Jadwal_jimpitMaxAggregateInputType = {
     id?: true
     members?: true
-    note?: true
     dayId?: true
     createdAt?: true
   }
@@ -5101,7 +5096,6 @@ export namespace Prisma {
   export type Jadwal_jimpitCountAggregateInputType = {
     id?: true
     members?: true
-    note?: true
     dayId?: true
     createdAt?: true
     _all?: true
@@ -5196,7 +5190,6 @@ export namespace Prisma {
   export type Jadwal_jimpitGroupByOutputType = {
     id: number
     members: string
-    note: string
     dayId: number
     createdAt: Date
     _count: Jadwal_jimpitCountAggregateOutputType | null
@@ -5223,7 +5216,6 @@ export namespace Prisma {
   export type jadwal_jimpitSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     members?: boolean
-    note?: boolean
     dayId?: boolean
     createdAt?: boolean
     day?: boolean | daysDefaultArgs<ExtArgs>
@@ -5232,7 +5224,6 @@ export namespace Prisma {
   export type jadwal_jimpitSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     members?: boolean
-    note?: boolean
     dayId?: boolean
     createdAt?: boolean
     day?: boolean | daysDefaultArgs<ExtArgs>
@@ -5241,7 +5232,6 @@ export namespace Prisma {
   export type jadwal_jimpitSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     members?: boolean
-    note?: boolean
     dayId?: boolean
     createdAt?: boolean
     day?: boolean | daysDefaultArgs<ExtArgs>
@@ -5250,12 +5240,11 @@ export namespace Prisma {
   export type jadwal_jimpitSelectScalar = {
     id?: boolean
     members?: boolean
-    note?: boolean
     dayId?: boolean
     createdAt?: boolean
   }
 
-  export type jadwal_jimpitOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "members" | "note" | "dayId" | "createdAt", ExtArgs["result"]["jadwal_jimpit"]>
+  export type jadwal_jimpitOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "members" | "dayId" | "createdAt", ExtArgs["result"]["jadwal_jimpit"]>
   export type jadwal_jimpitInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     day?: boolean | daysDefaultArgs<ExtArgs>
   }
@@ -5274,7 +5263,6 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: number
       members: string
-      note: string
       dayId: number
       createdAt: Date
     }, ExtArgs["result"]["jadwal_jimpit"]>
@@ -5703,7 +5691,6 @@ export namespace Prisma {
   interface jadwal_jimpitFieldRefs {
     readonly id: FieldRef<"jadwal_jimpit", 'Int'>
     readonly members: FieldRef<"jadwal_jimpit", 'String'>
-    readonly note: FieldRef<"jadwal_jimpit", 'String'>
     readonly dayId: FieldRef<"jadwal_jimpit", 'Int'>
     readonly createdAt: FieldRef<"jadwal_jimpit", 'DateTime'>
   }
@@ -10392,7 +10379,6 @@ export namespace Prisma {
   export const Jadwal_jimpitScalarFieldEnum: {
     id: 'id',
     members: 'members',
-    note: 'note',
     dayId: 'dayId',
     createdAt: 'createdAt'
   };
@@ -10761,7 +10747,6 @@ export namespace Prisma {
     NOT?: jadwal_jimpitWhereInput | jadwal_jimpitWhereInput[]
     id?: IntFilter<"jadwal_jimpit"> | number
     members?: StringFilter<"jadwal_jimpit"> | string
-    note?: StringFilter<"jadwal_jimpit"> | string
     dayId?: IntFilter<"jadwal_jimpit"> | number
     createdAt?: DateTimeFilter<"jadwal_jimpit"> | Date | string
     day?: XOR<DaysScalarRelationFilter, daysWhereInput>
@@ -10770,7 +10755,6 @@ export namespace Prisma {
   export type jadwal_jimpitOrderByWithRelationInput = {
     id?: SortOrder
     members?: SortOrder
-    note?: SortOrder
     dayId?: SortOrder
     createdAt?: SortOrder
     day?: daysOrderByWithRelationInput
@@ -10782,7 +10766,6 @@ export namespace Prisma {
     OR?: jadwal_jimpitWhereInput[]
     NOT?: jadwal_jimpitWhereInput | jadwal_jimpitWhereInput[]
     members?: StringFilter<"jadwal_jimpit"> | string
-    note?: StringFilter<"jadwal_jimpit"> | string
     dayId?: IntFilter<"jadwal_jimpit"> | number
     createdAt?: DateTimeFilter<"jadwal_jimpit"> | Date | string
     day?: XOR<DaysScalarRelationFilter, daysWhereInput>
@@ -10791,7 +10774,6 @@ export namespace Prisma {
   export type jadwal_jimpitOrderByWithAggregationInput = {
     id?: SortOrder
     members?: SortOrder
-    note?: SortOrder
     dayId?: SortOrder
     createdAt?: SortOrder
     _count?: jadwal_jimpitCountOrderByAggregateInput
@@ -10807,7 +10789,6 @@ export namespace Prisma {
     NOT?: jadwal_jimpitScalarWhereWithAggregatesInput | jadwal_jimpitScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"jadwal_jimpit"> | number
     members?: StringWithAggregatesFilter<"jadwal_jimpit"> | string
-    note?: StringWithAggregatesFilter<"jadwal_jimpit"> | string
     dayId?: IntWithAggregatesFilter<"jadwal_jimpit"> | number
     createdAt?: DateTimeWithAggregatesFilter<"jadwal_jimpit"> | Date | string
   }
@@ -11211,7 +11192,6 @@ export namespace Prisma {
 
   export type jadwal_jimpitCreateInput = {
     members: string
-    note: string
     createdAt?: Date | string
     day: daysCreateNestedOneWithoutJadwalsInput
   }
@@ -11219,14 +11199,12 @@ export namespace Prisma {
   export type jadwal_jimpitUncheckedCreateInput = {
     id?: number
     members: string
-    note: string
     dayId: number
     createdAt?: Date | string
   }
 
   export type jadwal_jimpitUpdateInput = {
     members?: StringFieldUpdateOperationsInput | string
-    note?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     day?: daysUpdateOneRequiredWithoutJadwalsNestedInput
   }
@@ -11234,7 +11212,6 @@ export namespace Prisma {
   export type jadwal_jimpitUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     members?: StringFieldUpdateOperationsInput | string
-    note?: StringFieldUpdateOperationsInput | string
     dayId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -11242,21 +11219,18 @@ export namespace Prisma {
   export type jadwal_jimpitCreateManyInput = {
     id?: number
     members: string
-    note: string
     dayId: number
     createdAt?: Date | string
   }
 
   export type jadwal_jimpitUpdateManyMutationInput = {
     members?: StringFieldUpdateOperationsInput | string
-    note?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type jadwal_jimpitUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     members?: StringFieldUpdateOperationsInput | string
-    note?: StringFieldUpdateOperationsInput | string
     dayId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -11721,7 +11695,6 @@ export namespace Prisma {
   export type jadwal_jimpitCountOrderByAggregateInput = {
     id?: SortOrder
     members?: SortOrder
-    note?: SortOrder
     dayId?: SortOrder
     createdAt?: SortOrder
   }
@@ -11734,7 +11707,6 @@ export namespace Prisma {
   export type jadwal_jimpitMaxOrderByAggregateInput = {
     id?: SortOrder
     members?: SortOrder
-    note?: SortOrder
     dayId?: SortOrder
     createdAt?: SortOrder
   }
@@ -11742,7 +11714,6 @@ export namespace Prisma {
   export type jadwal_jimpitMinOrderByAggregateInput = {
     id?: SortOrder
     members?: SortOrder
-    note?: SortOrder
     dayId?: SortOrder
     createdAt?: SortOrder
   }
@@ -12589,14 +12560,12 @@ export namespace Prisma {
 
   export type jadwal_jimpitCreateWithoutDayInput = {
     members: string
-    note: string
     createdAt?: Date | string
   }
 
   export type jadwal_jimpitUncheckedCreateWithoutDayInput = {
     id?: number
     members: string
-    note: string
     createdAt?: Date | string
   }
 
@@ -12632,7 +12601,6 @@ export namespace Prisma {
     NOT?: jadwal_jimpitScalarWhereInput | jadwal_jimpitScalarWhereInput[]
     id?: IntFilter<"jadwal_jimpit"> | number
     members?: StringFilter<"jadwal_jimpit"> | string
-    note?: StringFilter<"jadwal_jimpit"> | string
     dayId?: IntFilter<"jadwal_jimpit"> | number
     createdAt?: DateTimeFilter<"jadwal_jimpit"> | Date | string
   }
@@ -12811,27 +12779,23 @@ export namespace Prisma {
   export type jadwal_jimpitCreateManyDayInput = {
     id?: number
     members: string
-    note: string
     createdAt?: Date | string
   }
 
   export type jadwal_jimpitUpdateWithoutDayInput = {
     members?: StringFieldUpdateOperationsInput | string
-    note?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type jadwal_jimpitUncheckedUpdateWithoutDayInput = {
     id?: IntFieldUpdateOperationsInput | number
     members?: StringFieldUpdateOperationsInput | string
-    note?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type jadwal_jimpitUncheckedUpdateManyWithoutDayInput = {
     id?: IntFieldUpdateOperationsInput | number
     members?: StringFieldUpdateOperationsInput | string
-    note?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
