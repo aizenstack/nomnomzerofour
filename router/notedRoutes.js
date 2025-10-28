@@ -4,10 +4,9 @@ const {getAllNoted, createNoted, updateNoted, deleteNoted} = require('../control
 
 const router = express.Router();
 
-router.use(authMiddleware)
 router.get('/noteds', getAllNoted);
-router.post('/noteds', createNoted);
-router.patch('/noteds/:id', updateNoted);
-router.delete('/noteds/:id', deleteNoted);
+router.post('/noteds',authMiddleware, createNoted);
+router.patch('/noteds/:id',authMiddleware, updateNoted);
+router.delete('/noteds/:id',authMiddleware, deleteNoted);
 
 module.exports = router;
