@@ -16,7 +16,9 @@ const createdJimpitTeams = async (req, res) => {
       },
     });
 
-    res.status(201).json({ message: "Teams created successfully" });
+    res.status(201).json({ 
+      data: newTeams
+     });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Internal Server Error" });

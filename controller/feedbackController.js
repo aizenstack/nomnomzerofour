@@ -17,11 +17,9 @@ const addFeedback = async (req, res) => {
     });
 
     res.status(201).json({
-      message: "Feedback submitted successfully!",
       data: feedback,
     });
   } catch (err) {
-    console.error(err);
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -38,11 +36,9 @@ const getAllFeedback = async (req, res) => {
     });
 
     res.status(200).json({
-      message: "All feedback fetched successfully!",
       data: feedbacks,
     });
   } catch (err) {
-    console.error(err);
     res.status(500).json({ message: "Internal server error" });
   }
 };

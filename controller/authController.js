@@ -104,7 +104,6 @@ const registerAccount = async (req, res) => {
     });
 
     return res.status(201).json({
-      message: "User created successfully",
       data: {
         id: user.id,
         username: user.username,
@@ -112,7 +111,6 @@ const registerAccount = async (req, res) => {
       },
     });
   } catch (err) {
-    console.error("REGISTER ERROR:", err);
     if (err.name === 'JsonWebTokenError') {
       return res.status(401).json({ message: "Token tidak valid" });
     }
@@ -149,16 +147,9 @@ const loginAccount = async (req, res) => {
     );
 
     return res.json({
-      message: "Login success",
       token,
-      user: {
-        id: user.id,
-        username: user.username,
-        role: user.role,
-      },
     });
-  } catch (err) {
-    console.error("LOGIN ERROR:", err);
+  } catch {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -176,11 +167,9 @@ const getAllUsers = async (req, res) => {
     });
 
     return res.status(200).json({
-      message: "All users fetched successfully",
       data: users,
     });
-  } catch (err) {
-    console.error("GET ALL USERS ERROR:", err);
+  } catch {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -204,11 +193,9 @@ const getUserById = async (req, res) => {
     }
 
     return res.status(200).json({
-      message: "User fetched successfully",
       data: user,
     });
   } catch (err) {
-    console.error("GET USER BY ID ERROR:", err);
     return res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -231,7 +218,6 @@ const deleteUser = async (req, res) => {
 
     return res.status(200).json({ message: "User deleted successfully!" });
   } catch (err) {
-    console.error("DELETE USER ERROR:", err);
     return res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -301,7 +287,6 @@ const updateUser = async (req, res) => {
     });
 
     return res.status(200).json({
-      message: "User updated successfully",
       data: updatedUser,
     });
   } catch (err) {

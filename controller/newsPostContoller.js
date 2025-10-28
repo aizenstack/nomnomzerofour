@@ -24,11 +24,9 @@ const getAllNewsPosts = async (req, res) => {
     });
 
     res.status(200).json({
-      message: "All news fetched successfully!",
       data: news,
     });
   } catch (err) {
-    console.error(err);
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -48,11 +46,9 @@ const getNewsBySlug = async (req, res) => {
     if (!news) return res.status(404).json({ message: "News not found!" });
 
     res.status(200).json({
-      message: "News fetched successfully!",
       data: news,
     });
   } catch (err) {
-    console.error(err);
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -85,11 +81,9 @@ const addNewsPost = async (req, res) => {
     });
 
     res.status(201).json({
-      message: "News created successfully!",
       data: newPost,
     });
   } catch (err) {
-    console.error(err);
     return res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -137,11 +131,9 @@ const updateNewsPost = async (req, res) => {
     });
 
     res.status(200).json({
-      message: "News updated successfully!",
       data: updatedPost,
     });
   } catch (err) {
-    console.error(err);
     res.status(500).json({ message: "Internal server error" });
   }
 };
