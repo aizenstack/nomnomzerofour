@@ -15,9 +15,7 @@ const createdJimpitTeams = async (req, res) => {
       },
     });
 
-    res.status(201).json({ 
-      data: newTeams
-     });
+    res.status(201).json({ data: newTeams });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Internal Server Error" });
@@ -77,8 +75,6 @@ const deleteJimpitTeams = async (req, res) => {
 };
 
 const getAllJimpitTeams = async (req, res) => {
-  console.log('getAllJimpitTeams called with query:', req.query);
-  
   try {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
@@ -88,8 +84,6 @@ const getAllJimpitTeams = async (req, res) => {
     if (req.query.day_id) {
       where.dayId = parseInt(req.query.day_id);
     }
-
-    console.log('Database query parameters:', { where, skip, limit });
 
     const [teams, total] = await Promise.all([
       prisma.jadwal_jimpit.findMany({
@@ -114,32 +108,15 @@ const getAllJimpitTeams = async (req, res) => {
       prisma.jadwal_jimpit.count({ where })
     ]);
 
-    console.log(`Found ${teams.length} teams out of ${total} total`);
+    const formattedTeams = teams.map(team => ({
+      id: team.id,
+      members: team.members ? JSON.parse(team.members) : [],
+      day_id: team.dayId,
+      day: team.day,
+      created_at: team.createdAt
+    }));
 
-    const formattedTeams = teams.map(team => {
-      try {
-        const members = team.members ? JSON.parse(team.members) : [];
-        console.log(`Team ${team.id} has ${members.length} members`);
-        
-        return {
-          id: team.id,
-          members: members, 
-          day_id: team.dayId,
-          day: team.day,
-          created_at: team.createdAt,
-          updated_at: team.updatedAt
-        };
-      } catch (error) {
-        console.error(`Error parsing members for team ${team.id}:`, error);
-        return {
-          ...team,
-          members: [],
-          error: "Error parsing members data"
-        };
-      }
-    });
-
-    const response = {
+    res.status(200).json({
       status: 'success',
       data: formattedTeams,
       meta: {
@@ -148,26 +125,10 @@ const getAllJimpitTeams = async (req, res) => {
         total_pages: Math.ceil(total / limit),
         limit
       }
-    };
-
-    console.log('Sending response with', formattedTeams.length, 'teams');
-    res.status(200).json(response);
+    });
   } catch (err) {
-    console.error('Error in getAllJimpitTeams:', {
-      message: err.message,
-      stack: err.stack,
-      query: req.query,
-      headers: req.headers
-    });
-    
-    res.status(500).json({ 
-      status: 'error',
-      message: 'Internal Server Error',
-      ...(process.env.NODE_ENV === 'development' && {
-        error: err.message,
-        stack: err.stack
-      })
-    });
+    console.error('Error in getAllJimpitTeams:', err);
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 };
 
