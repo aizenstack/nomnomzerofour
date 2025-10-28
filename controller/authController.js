@@ -47,7 +47,7 @@ const JWT_SECRET = process.env.JWT_SECRET;
 
 const registerAccount = async (req, res) => {
   try {
-    let { username, password, role } = req.body;
+    let { username, password, role = 'external_user' } = req.body;
     username = username.trim();
 
     if (!username || !password) {
@@ -63,20 +63,34 @@ const registerAccount = async (req, res) => {
     }
 
     const token = req.headers.authorization?.split(" ")[1];
-    if (!token) return res.status(401).json({ message: "Token tidak ada" });
+    if (!token) {
+      return res.status(401).json({ message: "Token tidak ada" });
+    }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const currentUser = await prisma.user.findUnique({
-      where: { id: decoded.id },
+      where: { id: decoded.userId },
     });
 
-    if (role && currentUser.role !== "own") {
-      return res.status(403).json({ message: "Hanya owner yang bisa menentukan role" });
+    if (!role) {
+      role = 'external_user';
     }
 
     const validRoles = ["own", "admin", "external_user"];
-    if (role && !validRoles.includes(role)) {
+    if (!validRoles.includes(role)) {
       return res.status(400).json({ message: "Role tidak valid" });
+    }
+
+    if (currentUser.role === 'admin' && role !== 'external_user') {
+      return res.status(403).json({ 
+        message: "Admin hanya bisa membuat akun dengan role external_user" 
+      });
+    }
+
+    if (['admin', 'own'].includes(role) && currentUser.role !== 'own') {
+      return res.status(403).json({ 
+        message: "Hanya owner yang bisa membuat akun dengan role admin atau own" 
+      });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -85,7 +99,7 @@ const registerAccount = async (req, res) => {
       data: {
         username,
         password: hashedPassword,
-        role: role || "external_user",
+        role,
       },
     });
 
@@ -99,6 +113,9 @@ const registerAccount = async (req, res) => {
     });
   } catch (err) {
     console.error("REGISTER ERROR:", err);
+    if (err.name === 'JsonWebTokenError') {
+      return res.status(401).json({ message: "Token tidak valid" });
+    }
     return res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -219,10 +236,91 @@ const deleteUser = async (req, res) => {
   }
 };
 
+const updateUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { username, password, role } = req.body;
+    const token = req.headers.authorization?.split(" ")[1];
+
+    if (!token) {
+      return res.status(401).json({ message: "Token tidak ada" });
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const currentUser = await prisma.user.findUnique({
+      where: { id: decoded.userId },
+    });
+
+    if (!currentUser) {
+      return res.status(404).json({ message: "User tidak ditemukan" });
+    }
+
+    const userToUpdate = await prisma.user.findUnique({
+      where: { id: parseInt(id) },
+    });
+
+    if (!userToUpdate) {
+      return res.status(404).json({ message: "User yang akan diupdate tidak ditemukan" });
+    }
+
+    if (currentUser.id !== userToUpdate.id && currentUser.role !== 'own') {
+      return res.status(403).json({ 
+        message: "Hanya owner yang bisa mengupdate user lain" 
+      });
+    }
+
+    if (role && role !== userToUpdate.role && currentUser.role !== 'own') {
+      return res.status(403).json({ 
+        message: "Hanya owner yang bisa mengubah role user" 
+      });
+    }
+
+    const updateData = {};
+    
+    if (username) {
+      updateData.username = username.trim();
+    }
+    
+    if (password) {
+      updateData.password = await bcrypt.hash(password, 10);
+    }
+    
+    if (role && currentUser.role === 'own') {
+      updateData.role = role;
+    }
+
+    const updatedUser = await prisma.user.update({
+      where: { id: parseInt(id) },
+      data: updateData,
+      select: {
+        id: true,
+        username: true,
+        role: true,
+        createdAt: true,
+      },
+    });
+
+    return res.status(200).json({
+      message: "User updated successfully",
+      data: updatedUser,
+    });
+  } catch (err) {
+    console.error("UPDATE USER ERROR:", err);
+    if (err.name === 'JsonWebTokenError') {
+      return res.status(401).json({ message: "Token tidak valid" });
+    }
+    if (err.code === 'P2002') {
+      return res.status(400).json({ message: "Username sudah digunakan" });
+    }
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 module.exports = {
   registerAccount,
   loginAccount,
   getAllUsers,
   getUserById,
   deleteUser,
+  updateUser
 };
