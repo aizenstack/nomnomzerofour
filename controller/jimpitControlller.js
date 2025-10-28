@@ -3,7 +3,7 @@ const prisma = new PrismaClient();
 
 const createdJimpitTeams = async (req, res) => {
   try {
-    const { members, note, day_id } = req.body;
+    const { members, day_id } = req.body;
 
     if (!members || !day_id)
       return res.status(400).json({ message: "All Field Is Required" });
@@ -11,7 +11,6 @@ const createdJimpitTeams = async (req, res) => {
     const newTeams = await prisma.jadwal_jimpit.create({
       data: {
         members: Array.isArray(members) ? JSON.stringify(members) : members,
-        note,
         dayId: parseInt(day_id),
       },
     });
@@ -28,7 +27,7 @@ const createdJimpitTeams = async (req, res) => {
 const updateJimpitTeams = async (req, res) => {
   try {
     const { id } = req.params;
-    const { members, note, day_id } = req.body;
+    const { members, day_id } = req.body;
 
     const existing = await prisma.jadwal_jimpit.findUnique({
       where: { id: parseInt(id) },
@@ -44,7 +43,6 @@ const updateJimpitTeams = async (req, res) => {
       where: { id: parseInt(id) },
       data: {
         members: Array.isArray(members) ? JSON.stringify(members) : members,
-        note,
         dayId: parseInt(day_id),
       },
     });
@@ -99,7 +97,6 @@ const getAllJimpitTeams = async (req, res) => {
         select: {
           id: true,
           members: true,
-          note: true,
           dayId: true,
           day: {
             select: {
@@ -127,7 +124,6 @@ const getAllJimpitTeams = async (req, res) => {
         return {
           id: team.id,
           members: members, 
-          note: team.note,
           day_id: team.dayId,
           day: team.day,
           created_at: team.createdAt,
