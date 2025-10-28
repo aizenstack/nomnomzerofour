@@ -111,6 +111,7 @@ const registerAccount = async (req, res) => {
       },
     });
   } catch (err) {
+    console.error("REGISTER ERROR:", err);
     if (err.name === 'JsonWebTokenError') {
       return res.status(401).json({ message: "Token tidak valid" });
     }
@@ -148,6 +149,11 @@ const loginAccount = async (req, res) => {
 
     return res.json({
       token,
+      user: {
+        id: user.id,
+        username: user.username,
+        role: user.role,
+      },
     });
   } catch {
     return res.status(500).json({ message: "Internal server error" });
@@ -218,6 +224,7 @@ const deleteUser = async (req, res) => {
 
     return res.status(200).json({ message: "User deleted successfully!" });
   } catch (err) {
+    console.error("DELETE USER ERROR:", err);
     return res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -287,6 +294,7 @@ const updateUser = async (req, res) => {
     });
 
     return res.status(200).json({
+      message: "User updated successfully",
       data: updatedUser,
     });
   } catch (err) {
