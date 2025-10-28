@@ -14,11 +14,16 @@ const getAllNoted = async (req, res) => {
       orderBy: { id: "asc" },
     });
 
+    const formatted = noted.map(n => ({
+      ...n,
+      list: n.content.split(",").map(item => item.trim())
+    }));
+
     const total = await prisma.noted.count();
     const totalPages = Math.ceil(total / limit);
 
     res.status(200).json({
-      data: noted,
+      data: formatted,
       page,
       totalPages,
       totalData: total,
