@@ -104,3 +104,12 @@ Content-Type: image/jpg
 GET https://nomnomzerofour.vercel.app/nomfour/nomnomzerofour.vercel.app/nomfour/jimpit
 Content-Type: application/json
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInVzZXJuYW1lIjoic3VwZXJhZG1pbiIsInJvbGUiOiJvd24iLCJpYXQiOjE3NjE1Mzc4OTksImV4cCI6MTc2MTU0MTQ5OX0.UKmmiLjJadiPJZ-YMjYQeUH1NrWq2IdP-90i5bHfyeg
+
+###
+POST https://nomnomzerofour.vercel.app/nomfour/noteds
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInVzZXJuYW1lIjoic3VwZXJhZG1pbiIsInJvbGUiOiJvd24iLCJpYXQiOjE3NjE2NDM4OTQsImV4cCI6MTc2MTY0NzQ5NH0.hxJ69iix_J02sVn7gXsWwDisngtS--FqvDo_-m4rquA
+
+{
+    "content": "Harap seluruh warga menjaga ketepatan waktu pengumpulan jimpitan. Jika berhalangan, mohon menghubungi koordinator harian terlebih dahulu. Gunakan wadah yang bersih dan hindari plastik sekali pakai. Terima kasih atas kerja samanya!" 
+}
