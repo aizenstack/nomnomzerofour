@@ -5,10 +5,9 @@ const { authMiddleware } = require('./utils/authMiddleware');
 
 const router = express.Router();
 
-router.use(authMiddleware);
 
-router.post('/image', upload.single('image'), uploadImage);
+router.post('/image',authMiddleware, upload.single('image'), uploadImage);
 
-router.post('/image/url', uploadFromUrl);
+router.post('/image/url',authMiddleware, uploadFromUrl);
 
 module.exports = router;
