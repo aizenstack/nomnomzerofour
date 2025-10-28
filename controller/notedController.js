@@ -9,6 +9,9 @@ const getAllNoted = async (req, res) => {
 
   try {
     const noted = await prisma.noted.findMany({
+      where: {
+        is_active: 'active'
+      },
       skip,
       take: limit,
       orderBy: { id: "asc" },
