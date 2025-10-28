@@ -88,3 +88,16 @@ model feedback {
   content   String
   CreatedAt DateTime @default(now())
 }
+
+enum an_active {
+  active
+  nonactive
+}
+
+model noted {
+  id        Int       @id @default(autoincrement())
+  content   String
+  is_active an_active @default(nonactive)
+  createdAt DateTime
+  updateAt  DateTime
+}

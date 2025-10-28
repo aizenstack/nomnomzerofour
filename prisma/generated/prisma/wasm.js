@@ -35,12 +35,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 6.16.3
- * Query Engine version: bb420e667c1820a8c05a38023385f6cc7ef8e83a
+ * Prisma Client JS version: 6.18.0
+ * Query Engine version: 34b5a692b7bd79939a9a2c3ef97d816e749cda2f
  */
 Prisma.prismaVersion = {
-  client: "6.16.3",
-  engine: "bb420e667c1820a8c05a38023385f6cc7ef8e83a"
+  client: "6.18.0",
+  engine: "34b5a692b7bd79939a9a2c3ef97d816e749cda2f"
 }
 
 Prisma.PrismaClientKnownRequestError = PrismaClientKnownRequestError;
@@ -148,6 +148,14 @@ exports.Prisma.FeedbackScalarFieldEnum = {
   CreatedAt: 'CreatedAt'
 };
 
+exports.Prisma.NotedScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  is_active: 'is_active',
+  createdAt: 'createdAt',
+  updateAt: 'updateAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -168,6 +176,11 @@ exports.onPublish = exports.$Enums.onPublish = {
   unpublish: 'unpublish'
 };
 
+exports.an_active = exports.$Enums.an_active = {
+  active: 'active',
+  nonactive: 'nonactive'
+};
+
 exports.Prisma.ModelName = {
   user: 'user',
   categories: 'categories',
@@ -175,7 +188,8 @@ exports.Prisma.ModelName = {
   jadwal_jimpit: 'jadwal_jimpit',
   days: 'days',
   resson: 'resson',
-  feedback: 'feedback'
+  feedback: 'feedback',
+  noted: 'noted'
 };
 /**
  * Create the Client
@@ -210,8 +224,8 @@ const config = {
     "schemaEnvPath": "../../../.env"
   },
   "relativePath": "../..",
-  "clientVersion": "6.16.3",
-  "engineVersion": "bb420e667c1820a8c05a38023385f6cc7ef8e83a",
+  "clientVersion": "6.18.0",
+  "engineVersion": "34b5a692b7bd79939a9a2c3ef97d816e749cda2f",
   "datasourceNames": [
     "db"
   ],
@@ -224,13 +238,13 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"./generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel user {\n  id        Int         @id @default(autoincrement())\n  username  String      @unique\n  password  String\n  ressons   resson[]\n  post      news_post[]\n  role      roleUser    @default(external_user)\n  createdAt DateTime    @default(now())\n}\n\nenum roleUser {\n  own\n  admin\n  external_user\n}\n\nmodel categories {\n  id        Int         @id @default(autoincrement())\n  name      String      @unique\n  posts     news_post[]\n  createdAt DateTime    @default(now())\n}\n\nmodel news_post {\n  id         Int        @id @default(autoincrement())\n  title      String\n  content    String\n  image_url  String\n  slug       String     @unique\n  author     user       @relation(fields: [authorId], references: [id])\n  authorId   Int\n  is_publish onPublish  @default(unpublish)\n  categoryId Int\n  category   categories @relation(fields: [categoryId], references: [id])\n  createdAt  DateTime   @default(now())\n  updateAt   DateTime   @default(now())\n}\n\nenum onPublish {\n  publish\n  unpublish\n}\n\nmodel jadwal_jimpit {\n  id        Int      @id @default(autoincrement())\n  members   String\n  note      String\n  dayId     Int\n  day       days     @relation(fields: [dayId], references: [id])\n  createdAt DateTime @default(now())\n}\n\nmodel days {\n  id        Int             @id @default(autoincrement())\n  name      String\n  jadwals   jadwal_jimpit[]\n  createdAt DateTime        @default(now())\n}\n\nmodel resson {\n  id        Int      @id @default(autoincrement())\n  reassonId Int\n  resson    user     @relation(fields: [reassonId], references: [id])\n  content   String\n  createdAt DateTime @default(now())\n  updateAt  DateTime @default(now())\n}\n\nmodel feedback {\n  id        Int      @id @default(autoincrement())\n  title     String\n  content   String\n  CreatedAt DateTime @default(now())\n}\n",
-  "inlineSchemaHash": "e3ef8a0b2afa1200b50351eb095b70d2a9e0819841f62ea45c0e93b8aad239f5",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"./generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel user {\n  id        Int         @id @default(autoincrement())\n  username  String      @unique\n  password  String\n  ressons   resson[]\n  post      news_post[]\n  role      roleUser    @default(external_user)\n  createdAt DateTime    @default(now())\n}\n\nenum roleUser {\n  own\n  admin\n  external_user\n}\n\nmodel categories {\n  id        Int         @id @default(autoincrement())\n  name      String      @unique\n  posts     news_post[]\n  createdAt DateTime    @default(now())\n}\n\nmodel news_post {\n  id         Int        @id @default(autoincrement())\n  title      String\n  content    String\n  image_url  String\n  slug       String     @unique\n  author     user       @relation(fields: [authorId], references: [id])\n  authorId   Int\n  is_publish onPublish  @default(unpublish)\n  categoryId Int\n  category   categories @relation(fields: [categoryId], references: [id])\n  createdAt  DateTime   @default(now())\n  updateAt   DateTime   @default(now())\n}\n\nenum onPublish {\n  publish\n  unpublish\n}\n\nmodel jadwal_jimpit {\n  id        Int      @id @default(autoincrement())\n  members   String\n  note      String\n  dayId     Int\n  day       days     @relation(fields: [dayId], references: [id])\n  createdAt DateTime @default(now())\n}\n\nmodel days {\n  id        Int             @id @default(autoincrement())\n  name      String\n  jadwals   jadwal_jimpit[]\n  createdAt DateTime        @default(now())\n}\n\nmodel resson {\n  id        Int      @id @default(autoincrement())\n  reassonId Int\n  resson    user     @relation(fields: [reassonId], references: [id])\n  content   String\n  createdAt DateTime @default(now())\n  updateAt  DateTime @default(now())\n}\n\nmodel feedback {\n  id        Int      @id @default(autoincrement())\n  title     String\n  content   String\n  CreatedAt DateTime @default(now())\n}\n\nenum an_active {\n  active\n  nonactive\n}\n\nmodel noted {\n  id        Int       @id @default(autoincrement())\n  content   String\n  is_active an_active @default(nonactive)\n  createdAt DateTime\n  updateAt  DateTime\n}\n",
+  "inlineSchemaHash": "4a1a12b33b22f548229a8d87b38f700faf178656acb5835869233bb342f9fdab",
   "copyEngine": true
 }
 config.dirname = '/'
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"user\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"username\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"ressons\",\"kind\":\"object\",\"type\":\"resson\",\"relationName\":\"ressonTouser\"},{\"name\":\"post\",\"kind\":\"object\",\"type\":\"news_post\",\"relationName\":\"news_postTouser\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"roleUser\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"categories\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"posts\",\"kind\":\"object\",\"type\":\"news_post\",\"relationName\":\"categoriesTonews_post\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"news_post\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"image_url\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"slug\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"author\",\"kind\":\"object\",\"type\":\"user\",\"relationName\":\"news_postTouser\"},{\"name\":\"authorId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"is_publish\",\"kind\":\"enum\",\"type\":\"onPublish\"},{\"name\":\"categoryId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"category\",\"kind\":\"object\",\"type\":\"categories\",\"relationName\":\"categoriesTonews_post\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updateAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"jadwal_jimpit\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"members\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"note\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"dayId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"day\",\"kind\":\"object\",\"type\":\"days\",\"relationName\":\"daysTojadwal_jimpit\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"days\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"jadwals\",\"kind\":\"object\",\"type\":\"jadwal_jimpit\",\"relationName\":\"daysTojadwal_jimpit\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"resson\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"reassonId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"resson\",\"kind\":\"object\",\"type\":\"user\",\"relationName\":\"ressonTouser\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updateAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"feedback\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"CreatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"user\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"username\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"ressons\",\"kind\":\"object\",\"type\":\"resson\",\"relationName\":\"ressonTouser\"},{\"name\":\"post\",\"kind\":\"object\",\"type\":\"news_post\",\"relationName\":\"news_postTouser\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"roleUser\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"categories\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"posts\",\"kind\":\"object\",\"type\":\"news_post\",\"relationName\":\"categoriesTonews_post\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"news_post\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"image_url\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"slug\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"author\",\"kind\":\"object\",\"type\":\"user\",\"relationName\":\"news_postTouser\"},{\"name\":\"authorId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"is_publish\",\"kind\":\"enum\",\"type\":\"onPublish\"},{\"name\":\"categoryId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"category\",\"kind\":\"object\",\"type\":\"categories\",\"relationName\":\"categoriesTonews_post\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updateAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"jadwal_jimpit\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"members\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"note\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"dayId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"day\",\"kind\":\"object\",\"type\":\"days\",\"relationName\":\"daysTojadwal_jimpit\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"days\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"jadwals\",\"kind\":\"object\",\"type\":\"jadwal_jimpit\",\"relationName\":\"daysTojadwal_jimpit\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"resson\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"reassonId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"resson\",\"kind\":\"object\",\"type\":\"user\",\"relationName\":\"ressonTouser\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updateAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"feedback\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"CreatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"noted\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"is_active\",\"kind\":\"enum\",\"type\":\"an_active\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updateAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.engineWasm = {
   getRuntime: async () => require('./query_engine_bg.js'),
