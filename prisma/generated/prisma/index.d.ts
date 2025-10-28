@@ -48,6 +48,11 @@ export type resson = $Result.DefaultSelection<Prisma.$ressonPayload>
  * 
  */
 export type feedback = $Result.DefaultSelection<Prisma.$feedbackPayload>
+/**
+ * Model noted
+ * 
+ */
+export type noted = $Result.DefaultSelection<Prisma.$notedPayload>
 
 /**
  * Enums
@@ -69,6 +74,14 @@ export const onPublish: {
 
 export type onPublish = (typeof onPublish)[keyof typeof onPublish]
 
+
+export const an_active: {
+  active: 'active',
+  nonactive: 'nonactive'
+};
+
+export type an_active = (typeof an_active)[keyof typeof an_active]
+
 }
 
 export type roleUser = $Enums.roleUser
@@ -78,6 +91,10 @@ export const roleUser: typeof $Enums.roleUser
 export type onPublish = $Enums.onPublish
 
 export const onPublish: typeof $Enums.onPublish
+
+export type an_active = $Enums.an_active
+
+export const an_active: typeof $Enums.an_active
 
 /**
  * ##  Prisma Client ʲˢ
@@ -266,6 +283,16 @@ export class PrismaClient<
     * ```
     */
   get feedback(): Prisma.feedbackDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.noted`: Exposes CRUD operations for the **noted** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Noteds
+    * const noteds = await prisma.noted.findMany()
+    * ```
+    */
+  get noted(): Prisma.notedDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -324,8 +351,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.16.3
-   * Query Engine version: bb420e667c1820a8c05a38023385f6cc7ef8e83a
+   * Prisma Client JS version: 6.18.0
+   * Query Engine version: 34b5a692b7bd79939a9a2c3ef97d816e749cda2f
    */
   export type PrismaVersion = {
     client: string
@@ -338,6 +365,7 @@ export namespace Prisma {
    */
 
 
+  export import Bytes = runtime.Bytes
   export import JsonObject = runtime.JsonObject
   export import JsonArray = runtime.JsonArray
   export import JsonValue = runtime.JsonValue
@@ -712,7 +740,8 @@ export namespace Prisma {
     jadwal_jimpit: 'jadwal_jimpit',
     days: 'days',
     resson: 'resson',
-    feedback: 'feedback'
+    feedback: 'feedback',
+    noted: 'noted'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -731,7 +760,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "categories" | "news_post" | "jadwal_jimpit" | "days" | "resson" | "feedback"
+      modelProps: "user" | "categories" | "news_post" | "jadwal_jimpit" | "days" | "resson" | "feedback" | "noted"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1253,6 +1282,80 @@ export namespace Prisma {
           }
         }
       }
+      noted: {
+        payload: Prisma.$notedPayload<ExtArgs>
+        fields: Prisma.notedFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.notedFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$notedPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.notedFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$notedPayload>
+          }
+          findFirst: {
+            args: Prisma.notedFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$notedPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.notedFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$notedPayload>
+          }
+          findMany: {
+            args: Prisma.notedFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$notedPayload>[]
+          }
+          create: {
+            args: Prisma.notedCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$notedPayload>
+          }
+          createMany: {
+            args: Prisma.notedCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.notedCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$notedPayload>[]
+          }
+          delete: {
+            args: Prisma.notedDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$notedPayload>
+          }
+          update: {
+            args: Prisma.notedUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$notedPayload>
+          }
+          deleteMany: {
+            args: Prisma.notedDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.notedUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.notedUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$notedPayload>[]
+          }
+          upsert: {
+            args: Prisma.notedUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$notedPayload>
+          }
+          aggregate: {
+            args: Prisma.NotedAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateNoted>
+          }
+          groupBy: {
+            args: Prisma.notedGroupByArgs<ExtArgs>
+            result: $Utils.Optional<NotedGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.notedCountArgs<ExtArgs>
+            result: $Utils.Optional<NotedCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1356,6 +1459,7 @@ export namespace Prisma {
     days?: daysOmit
     resson?: ressonOmit
     feedback?: feedbackOmit
+    noted?: notedOmit
   }
 
   /* Types for Logging */
@@ -9207,6 +9311,1035 @@ export namespace Prisma {
 
 
   /**
+   * Model noted
+   */
+
+  export type AggregateNoted = {
+    _count: NotedCountAggregateOutputType | null
+    _avg: NotedAvgAggregateOutputType | null
+    _sum: NotedSumAggregateOutputType | null
+    _min: NotedMinAggregateOutputType | null
+    _max: NotedMaxAggregateOutputType | null
+  }
+
+  export type NotedAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type NotedSumAggregateOutputType = {
+    id: number | null
+  }
+
+  export type NotedMinAggregateOutputType = {
+    id: number | null
+    content: string | null
+    is_active: $Enums.an_active | null
+    createdAt: Date | null
+    updateAt: Date | null
+  }
+
+  export type NotedMaxAggregateOutputType = {
+    id: number | null
+    content: string | null
+    is_active: $Enums.an_active | null
+    createdAt: Date | null
+    updateAt: Date | null
+  }
+
+  export type NotedCountAggregateOutputType = {
+    id: number
+    content: number
+    is_active: number
+    createdAt: number
+    updateAt: number
+    _all: number
+  }
+
+
+  export type NotedAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type NotedSumAggregateInputType = {
+    id?: true
+  }
+
+  export type NotedMinAggregateInputType = {
+    id?: true
+    content?: true
+    is_active?: true
+    createdAt?: true
+    updateAt?: true
+  }
+
+  export type NotedMaxAggregateInputType = {
+    id?: true
+    content?: true
+    is_active?: true
+    createdAt?: true
+    updateAt?: true
+  }
+
+  export type NotedCountAggregateInputType = {
+    id?: true
+    content?: true
+    is_active?: true
+    createdAt?: true
+    updateAt?: true
+    _all?: true
+  }
+
+  export type NotedAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which noted to aggregate.
+     */
+    where?: notedWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of noteds to fetch.
+     */
+    orderBy?: notedOrderByWithRelationInput | notedOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: notedWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` noteds from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` noteds.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned noteds
+    **/
+    _count?: true | NotedCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: NotedAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: NotedSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: NotedMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: NotedMaxAggregateInputType
+  }
+
+  export type GetNotedAggregateType<T extends NotedAggregateArgs> = {
+        [P in keyof T & keyof AggregateNoted]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateNoted[P]>
+      : GetScalarType<T[P], AggregateNoted[P]>
+  }
+
+
+
+
+  export type notedGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: notedWhereInput
+    orderBy?: notedOrderByWithAggregationInput | notedOrderByWithAggregationInput[]
+    by: NotedScalarFieldEnum[] | NotedScalarFieldEnum
+    having?: notedScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: NotedCountAggregateInputType | true
+    _avg?: NotedAvgAggregateInputType
+    _sum?: NotedSumAggregateInputType
+    _min?: NotedMinAggregateInputType
+    _max?: NotedMaxAggregateInputType
+  }
+
+  export type NotedGroupByOutputType = {
+    id: number
+    content: string
+    is_active: $Enums.an_active
+    createdAt: Date
+    updateAt: Date
+    _count: NotedCountAggregateOutputType | null
+    _avg: NotedAvgAggregateOutputType | null
+    _sum: NotedSumAggregateOutputType | null
+    _min: NotedMinAggregateOutputType | null
+    _max: NotedMaxAggregateOutputType | null
+  }
+
+  type GetNotedGroupByPayload<T extends notedGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<NotedGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof NotedGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], NotedGroupByOutputType[P]>
+            : GetScalarType<T[P], NotedGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type notedSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    content?: boolean
+    is_active?: boolean
+    createdAt?: boolean
+    updateAt?: boolean
+  }, ExtArgs["result"]["noted"]>
+
+  export type notedSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    content?: boolean
+    is_active?: boolean
+    createdAt?: boolean
+    updateAt?: boolean
+  }, ExtArgs["result"]["noted"]>
+
+  export type notedSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    content?: boolean
+    is_active?: boolean
+    createdAt?: boolean
+    updateAt?: boolean
+  }, ExtArgs["result"]["noted"]>
+
+  export type notedSelectScalar = {
+    id?: boolean
+    content?: boolean
+    is_active?: boolean
+    createdAt?: boolean
+    updateAt?: boolean
+  }
+
+  export type notedOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "content" | "is_active" | "createdAt" | "updateAt", ExtArgs["result"]["noted"]>
+
+  export type $notedPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "noted"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      content: string
+      is_active: $Enums.an_active
+      createdAt: Date
+      updateAt: Date
+    }, ExtArgs["result"]["noted"]>
+    composites: {}
+  }
+
+  type notedGetPayload<S extends boolean | null | undefined | notedDefaultArgs> = $Result.GetResult<Prisma.$notedPayload, S>
+
+  type notedCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<notedFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: NotedCountAggregateInputType | true
+    }
+
+  export interface notedDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['noted'], meta: { name: 'noted' } }
+    /**
+     * Find zero or one Noted that matches the filter.
+     * @param {notedFindUniqueArgs} args - Arguments to find a Noted
+     * @example
+     * // Get one Noted
+     * const noted = await prisma.noted.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends notedFindUniqueArgs>(args: SelectSubset<T, notedFindUniqueArgs<ExtArgs>>): Prisma__notedClient<$Result.GetResult<Prisma.$notedPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Noted that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {notedFindUniqueOrThrowArgs} args - Arguments to find a Noted
+     * @example
+     * // Get one Noted
+     * const noted = await prisma.noted.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends notedFindUniqueOrThrowArgs>(args: SelectSubset<T, notedFindUniqueOrThrowArgs<ExtArgs>>): Prisma__notedClient<$Result.GetResult<Prisma.$notedPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Noted that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {notedFindFirstArgs} args - Arguments to find a Noted
+     * @example
+     * // Get one Noted
+     * const noted = await prisma.noted.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends notedFindFirstArgs>(args?: SelectSubset<T, notedFindFirstArgs<ExtArgs>>): Prisma__notedClient<$Result.GetResult<Prisma.$notedPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Noted that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {notedFindFirstOrThrowArgs} args - Arguments to find a Noted
+     * @example
+     * // Get one Noted
+     * const noted = await prisma.noted.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends notedFindFirstOrThrowArgs>(args?: SelectSubset<T, notedFindFirstOrThrowArgs<ExtArgs>>): Prisma__notedClient<$Result.GetResult<Prisma.$notedPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Noteds that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {notedFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Noteds
+     * const noteds = await prisma.noted.findMany()
+     * 
+     * // Get first 10 Noteds
+     * const noteds = await prisma.noted.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const notedWithIdOnly = await prisma.noted.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends notedFindManyArgs>(args?: SelectSubset<T, notedFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$notedPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Noted.
+     * @param {notedCreateArgs} args - Arguments to create a Noted.
+     * @example
+     * // Create one Noted
+     * const Noted = await prisma.noted.create({
+     *   data: {
+     *     // ... data to create a Noted
+     *   }
+     * })
+     * 
+     */
+    create<T extends notedCreateArgs>(args: SelectSubset<T, notedCreateArgs<ExtArgs>>): Prisma__notedClient<$Result.GetResult<Prisma.$notedPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Noteds.
+     * @param {notedCreateManyArgs} args - Arguments to create many Noteds.
+     * @example
+     * // Create many Noteds
+     * const noted = await prisma.noted.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends notedCreateManyArgs>(args?: SelectSubset<T, notedCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Noteds and returns the data saved in the database.
+     * @param {notedCreateManyAndReturnArgs} args - Arguments to create many Noteds.
+     * @example
+     * // Create many Noteds
+     * const noted = await prisma.noted.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Noteds and only return the `id`
+     * const notedWithIdOnly = await prisma.noted.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends notedCreateManyAndReturnArgs>(args?: SelectSubset<T, notedCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$notedPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Noted.
+     * @param {notedDeleteArgs} args - Arguments to delete one Noted.
+     * @example
+     * // Delete one Noted
+     * const Noted = await prisma.noted.delete({
+     *   where: {
+     *     // ... filter to delete one Noted
+     *   }
+     * })
+     * 
+     */
+    delete<T extends notedDeleteArgs>(args: SelectSubset<T, notedDeleteArgs<ExtArgs>>): Prisma__notedClient<$Result.GetResult<Prisma.$notedPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Noted.
+     * @param {notedUpdateArgs} args - Arguments to update one Noted.
+     * @example
+     * // Update one Noted
+     * const noted = await prisma.noted.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends notedUpdateArgs>(args: SelectSubset<T, notedUpdateArgs<ExtArgs>>): Prisma__notedClient<$Result.GetResult<Prisma.$notedPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Noteds.
+     * @param {notedDeleteManyArgs} args - Arguments to filter Noteds to delete.
+     * @example
+     * // Delete a few Noteds
+     * const { count } = await prisma.noted.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends notedDeleteManyArgs>(args?: SelectSubset<T, notedDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Noteds.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {notedUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Noteds
+     * const noted = await prisma.noted.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends notedUpdateManyArgs>(args: SelectSubset<T, notedUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Noteds and returns the data updated in the database.
+     * @param {notedUpdateManyAndReturnArgs} args - Arguments to update many Noteds.
+     * @example
+     * // Update many Noteds
+     * const noted = await prisma.noted.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Noteds and only return the `id`
+     * const notedWithIdOnly = await prisma.noted.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends notedUpdateManyAndReturnArgs>(args: SelectSubset<T, notedUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$notedPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Noted.
+     * @param {notedUpsertArgs} args - Arguments to update or create a Noted.
+     * @example
+     * // Update or create a Noted
+     * const noted = await prisma.noted.upsert({
+     *   create: {
+     *     // ... data to create a Noted
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Noted we want to update
+     *   }
+     * })
+     */
+    upsert<T extends notedUpsertArgs>(args: SelectSubset<T, notedUpsertArgs<ExtArgs>>): Prisma__notedClient<$Result.GetResult<Prisma.$notedPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Noteds.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {notedCountArgs} args - Arguments to filter Noteds to count.
+     * @example
+     * // Count the number of Noteds
+     * const count = await prisma.noted.count({
+     *   where: {
+     *     // ... the filter for the Noteds we want to count
+     *   }
+     * })
+    **/
+    count<T extends notedCountArgs>(
+      args?: Subset<T, notedCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], NotedCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Noted.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotedAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends NotedAggregateArgs>(args: Subset<T, NotedAggregateArgs>): Prisma.PrismaPromise<GetNotedAggregateType<T>>
+
+    /**
+     * Group by Noted.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {notedGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends notedGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: notedGroupByArgs['orderBy'] }
+        : { orderBy?: notedGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, notedGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetNotedGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the noted model
+   */
+  readonly fields: notedFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for noted.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__notedClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the noted model
+   */
+  interface notedFieldRefs {
+    readonly id: FieldRef<"noted", 'Int'>
+    readonly content: FieldRef<"noted", 'String'>
+    readonly is_active: FieldRef<"noted", 'an_active'>
+    readonly createdAt: FieldRef<"noted", 'DateTime'>
+    readonly updateAt: FieldRef<"noted", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * noted findUnique
+   */
+  export type notedFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the noted
+     */
+    select?: notedSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the noted
+     */
+    omit?: notedOmit<ExtArgs> | null
+    /**
+     * Filter, which noted to fetch.
+     */
+    where: notedWhereUniqueInput
+  }
+
+  /**
+   * noted findUniqueOrThrow
+   */
+  export type notedFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the noted
+     */
+    select?: notedSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the noted
+     */
+    omit?: notedOmit<ExtArgs> | null
+    /**
+     * Filter, which noted to fetch.
+     */
+    where: notedWhereUniqueInput
+  }
+
+  /**
+   * noted findFirst
+   */
+  export type notedFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the noted
+     */
+    select?: notedSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the noted
+     */
+    omit?: notedOmit<ExtArgs> | null
+    /**
+     * Filter, which noted to fetch.
+     */
+    where?: notedWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of noteds to fetch.
+     */
+    orderBy?: notedOrderByWithRelationInput | notedOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for noteds.
+     */
+    cursor?: notedWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` noteds from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` noteds.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of noteds.
+     */
+    distinct?: NotedScalarFieldEnum | NotedScalarFieldEnum[]
+  }
+
+  /**
+   * noted findFirstOrThrow
+   */
+  export type notedFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the noted
+     */
+    select?: notedSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the noted
+     */
+    omit?: notedOmit<ExtArgs> | null
+    /**
+     * Filter, which noted to fetch.
+     */
+    where?: notedWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of noteds to fetch.
+     */
+    orderBy?: notedOrderByWithRelationInput | notedOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for noteds.
+     */
+    cursor?: notedWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` noteds from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` noteds.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of noteds.
+     */
+    distinct?: NotedScalarFieldEnum | NotedScalarFieldEnum[]
+  }
+
+  /**
+   * noted findMany
+   */
+  export type notedFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the noted
+     */
+    select?: notedSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the noted
+     */
+    omit?: notedOmit<ExtArgs> | null
+    /**
+     * Filter, which noteds to fetch.
+     */
+    where?: notedWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of noteds to fetch.
+     */
+    orderBy?: notedOrderByWithRelationInput | notedOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing noteds.
+     */
+    cursor?: notedWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` noteds from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` noteds.
+     */
+    skip?: number
+    distinct?: NotedScalarFieldEnum | NotedScalarFieldEnum[]
+  }
+
+  /**
+   * noted create
+   */
+  export type notedCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the noted
+     */
+    select?: notedSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the noted
+     */
+    omit?: notedOmit<ExtArgs> | null
+    /**
+     * The data needed to create a noted.
+     */
+    data: XOR<notedCreateInput, notedUncheckedCreateInput>
+  }
+
+  /**
+   * noted createMany
+   */
+  export type notedCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many noteds.
+     */
+    data: notedCreateManyInput | notedCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * noted createManyAndReturn
+   */
+  export type notedCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the noted
+     */
+    select?: notedSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the noted
+     */
+    omit?: notedOmit<ExtArgs> | null
+    /**
+     * The data used to create many noteds.
+     */
+    data: notedCreateManyInput | notedCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * noted update
+   */
+  export type notedUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the noted
+     */
+    select?: notedSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the noted
+     */
+    omit?: notedOmit<ExtArgs> | null
+    /**
+     * The data needed to update a noted.
+     */
+    data: XOR<notedUpdateInput, notedUncheckedUpdateInput>
+    /**
+     * Choose, which noted to update.
+     */
+    where: notedWhereUniqueInput
+  }
+
+  /**
+   * noted updateMany
+   */
+  export type notedUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update noteds.
+     */
+    data: XOR<notedUpdateManyMutationInput, notedUncheckedUpdateManyInput>
+    /**
+     * Filter which noteds to update
+     */
+    where?: notedWhereInput
+    /**
+     * Limit how many noteds to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * noted updateManyAndReturn
+   */
+  export type notedUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the noted
+     */
+    select?: notedSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the noted
+     */
+    omit?: notedOmit<ExtArgs> | null
+    /**
+     * The data used to update noteds.
+     */
+    data: XOR<notedUpdateManyMutationInput, notedUncheckedUpdateManyInput>
+    /**
+     * Filter which noteds to update
+     */
+    where?: notedWhereInput
+    /**
+     * Limit how many noteds to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * noted upsert
+   */
+  export type notedUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the noted
+     */
+    select?: notedSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the noted
+     */
+    omit?: notedOmit<ExtArgs> | null
+    /**
+     * The filter to search for the noted to update in case it exists.
+     */
+    where: notedWhereUniqueInput
+    /**
+     * In case the noted found by the `where` argument doesn't exist, create a new noted with this data.
+     */
+    create: XOR<notedCreateInput, notedUncheckedCreateInput>
+    /**
+     * In case the noted was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<notedUpdateInput, notedUncheckedUpdateInput>
+  }
+
+  /**
+   * noted delete
+   */
+  export type notedDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the noted
+     */
+    select?: notedSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the noted
+     */
+    omit?: notedOmit<ExtArgs> | null
+    /**
+     * Filter which noted to delete.
+     */
+    where: notedWhereUniqueInput
+  }
+
+  /**
+   * noted deleteMany
+   */
+  export type notedDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which noteds to delete
+     */
+    where?: notedWhereInput
+    /**
+     * Limit how many noteds to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * noted without action
+   */
+  export type notedDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the noted
+     */
+    select?: notedSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the noted
+     */
+    omit?: notedOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -9297,6 +10430,17 @@ export namespace Prisma {
   export type FeedbackScalarFieldEnum = (typeof FeedbackScalarFieldEnum)[keyof typeof FeedbackScalarFieldEnum]
 
 
+  export const NotedScalarFieldEnum: {
+    id: 'id',
+    content: 'content',
+    is_active: 'is_active',
+    createdAt: 'createdAt',
+    updateAt: 'updateAt'
+  };
+
+  export type NotedScalarFieldEnum = (typeof NotedScalarFieldEnum)[keyof typeof NotedScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -9385,6 +10529,20 @@ export namespace Prisma {
    * Reference to a field of type 'onPublish[]'
    */
   export type ListEnumonPublishFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'onPublish[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'an_active'
+   */
+  export type Enuman_activeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'an_active'>
+    
+
+
+  /**
+   * Reference to a field of type 'an_active[]'
+   */
+  export type ListEnuman_activeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'an_active[]'>
     
 
 
@@ -9807,6 +10965,60 @@ export namespace Prisma {
     CreatedAt?: DateTimeWithAggregatesFilter<"feedback"> | Date | string
   }
 
+  export type notedWhereInput = {
+    AND?: notedWhereInput | notedWhereInput[]
+    OR?: notedWhereInput[]
+    NOT?: notedWhereInput | notedWhereInput[]
+    id?: IntFilter<"noted"> | number
+    content?: StringFilter<"noted"> | string
+    is_active?: Enuman_activeFilter<"noted"> | $Enums.an_active
+    createdAt?: DateTimeFilter<"noted"> | Date | string
+    updateAt?: DateTimeFilter<"noted"> | Date | string
+  }
+
+  export type notedOrderByWithRelationInput = {
+    id?: SortOrder
+    content?: SortOrder
+    is_active?: SortOrder
+    createdAt?: SortOrder
+    updateAt?: SortOrder
+  }
+
+  export type notedWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: notedWhereInput | notedWhereInput[]
+    OR?: notedWhereInput[]
+    NOT?: notedWhereInput | notedWhereInput[]
+    content?: StringFilter<"noted"> | string
+    is_active?: Enuman_activeFilter<"noted"> | $Enums.an_active
+    createdAt?: DateTimeFilter<"noted"> | Date | string
+    updateAt?: DateTimeFilter<"noted"> | Date | string
+  }, "id">
+
+  export type notedOrderByWithAggregationInput = {
+    id?: SortOrder
+    content?: SortOrder
+    is_active?: SortOrder
+    createdAt?: SortOrder
+    updateAt?: SortOrder
+    _count?: notedCountOrderByAggregateInput
+    _avg?: notedAvgOrderByAggregateInput
+    _max?: notedMaxOrderByAggregateInput
+    _min?: notedMinOrderByAggregateInput
+    _sum?: notedSumOrderByAggregateInput
+  }
+
+  export type notedScalarWhereWithAggregatesInput = {
+    AND?: notedScalarWhereWithAggregatesInput | notedScalarWhereWithAggregatesInput[]
+    OR?: notedScalarWhereWithAggregatesInput[]
+    NOT?: notedScalarWhereWithAggregatesInput | notedScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"noted"> | number
+    content?: StringWithAggregatesFilter<"noted"> | string
+    is_active?: Enuman_activeWithAggregatesFilter<"noted"> | $Enums.an_active
+    createdAt?: DateTimeWithAggregatesFilter<"noted"> | Date | string
+    updateAt?: DateTimeWithAggregatesFilter<"noted"> | Date | string
+  }
+
   export type userCreateInput = {
     username: string
     password: string
@@ -10188,6 +11400,59 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     CreatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type notedCreateInput = {
+    content: string
+    is_active?: $Enums.an_active
+    createdAt: Date | string
+    updateAt: Date | string
+  }
+
+  export type notedUncheckedCreateInput = {
+    id?: number
+    content: string
+    is_active?: $Enums.an_active
+    createdAt: Date | string
+    updateAt: Date | string
+  }
+
+  export type notedUpdateInput = {
+    content?: StringFieldUpdateOperationsInput | string
+    is_active?: Enuman_activeFieldUpdateOperationsInput | $Enums.an_active
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type notedUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    content?: StringFieldUpdateOperationsInput | string
+    is_active?: Enuman_activeFieldUpdateOperationsInput | $Enums.an_active
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type notedCreateManyInput = {
+    id?: number
+    content: string
+    is_active?: $Enums.an_active
+    createdAt: Date | string
+    updateAt: Date | string
+  }
+
+  export type notedUpdateManyMutationInput = {
+    content?: StringFieldUpdateOperationsInput | string
+    is_active?: Enuman_activeFieldUpdateOperationsInput | $Enums.an_active
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type notedUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    content?: StringFieldUpdateOperationsInput | string
+    is_active?: Enuman_activeFieldUpdateOperationsInput | $Enums.an_active
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -10586,6 +11851,55 @@ export namespace Prisma {
     id?: SortOrder
   }
 
+  export type Enuman_activeFilter<$PrismaModel = never> = {
+    equals?: $Enums.an_active | Enuman_activeFieldRefInput<$PrismaModel>
+    in?: $Enums.an_active[] | ListEnuman_activeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.an_active[] | ListEnuman_activeFieldRefInput<$PrismaModel>
+    not?: NestedEnuman_activeFilter<$PrismaModel> | $Enums.an_active
+  }
+
+  export type notedCountOrderByAggregateInput = {
+    id?: SortOrder
+    content?: SortOrder
+    is_active?: SortOrder
+    createdAt?: SortOrder
+    updateAt?: SortOrder
+  }
+
+  export type notedAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type notedMaxOrderByAggregateInput = {
+    id?: SortOrder
+    content?: SortOrder
+    is_active?: SortOrder
+    createdAt?: SortOrder
+    updateAt?: SortOrder
+  }
+
+  export type notedMinOrderByAggregateInput = {
+    id?: SortOrder
+    content?: SortOrder
+    is_active?: SortOrder
+    createdAt?: SortOrder
+    updateAt?: SortOrder
+  }
+
+  export type notedSumOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type Enuman_activeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.an_active | Enuman_activeFieldRefInput<$PrismaModel>
+    in?: $Enums.an_active[] | ListEnuman_activeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.an_active[] | ListEnuman_activeFieldRefInput<$PrismaModel>
+    not?: NestedEnuman_activeWithAggregatesFilter<$PrismaModel> | $Enums.an_active
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnuman_activeFilter<$PrismaModel>
+    _max?: NestedEnuman_activeFilter<$PrismaModel>
+  }
+
   export type ressonCreateNestedManyWithoutRessonInput = {
     create?: XOR<ressonCreateWithoutRessonInput, ressonUncheckedCreateWithoutRessonInput> | ressonCreateWithoutRessonInput[] | ressonUncheckedCreateWithoutRessonInput[]
     connectOrCreate?: ressonCreateOrConnectWithoutRessonInput | ressonCreateOrConnectWithoutRessonInput[]
@@ -10834,6 +12148,10 @@ export namespace Prisma {
     update?: XOR<XOR<userUpdateToOneWithWhereWithoutRessonsInput, userUpdateWithoutRessonsInput>, userUncheckedUpdateWithoutRessonsInput>
   }
 
+  export type Enuman_activeFieldUpdateOperationsInput = {
+    set?: $Enums.an_active
+  }
+
   export type NestedIntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -10960,6 +12278,23 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumonPublishFilter<$PrismaModel>
     _max?: NestedEnumonPublishFilter<$PrismaModel>
+  }
+
+  export type NestedEnuman_activeFilter<$PrismaModel = never> = {
+    equals?: $Enums.an_active | Enuman_activeFieldRefInput<$PrismaModel>
+    in?: $Enums.an_active[] | ListEnuman_activeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.an_active[] | ListEnuman_activeFieldRefInput<$PrismaModel>
+    not?: NestedEnuman_activeFilter<$PrismaModel> | $Enums.an_active
+  }
+
+  export type NestedEnuman_activeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.an_active | Enuman_activeFieldRefInput<$PrismaModel>
+    in?: $Enums.an_active[] | ListEnuman_activeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.an_active[] | ListEnuman_activeFieldRefInput<$PrismaModel>
+    not?: NestedEnuman_activeWithAggregatesFilter<$PrismaModel> | $Enums.an_active
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnuman_activeFilter<$PrismaModel>
+    _max?: NestedEnuman_activeFilter<$PrismaModel>
   }
 
   export type ressonCreateWithoutRessonInput = {
