@@ -14,11 +14,9 @@ const addCategory = async (req, res) => {
     });
 
     res.status(201).json({
-      message: "Category created successfully!",
       data: newCategory,
     });
   } catch (err) {
-    console.error('Add category error:', err);
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -31,11 +29,9 @@ const getAllCategories = async (req, res) => {
     });
 
     res.status(200).json({
-      message: "Categories fetched successfully!",
       data: categories,
     });
   } catch (err) {
-    console.error(err);
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -51,7 +47,6 @@ const getCategoryById = async (req, res) => {
       return res.status(404).json({ message: "Category not found" });
 
     res.status(200).json({
-      message: "Category fetched successfully!",
       data: category,
     });
   } catch (err) {
@@ -80,11 +75,9 @@ const updateCategory = async (req, res) => {
     });
 
     res.status(200).json({
-      message: "Category updated successfully!",
       data: updated,
     });
   } catch (err) {
-    console.error(err);
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -106,7 +99,6 @@ const deleteCategory = async (req, res) => {
 
     res.status(200).json({ message: "Category deleted successfully!" });
   } catch (err) {
-    console.error(err);
     res.status(500).json({ message: "Internal server error" });
   }
 };

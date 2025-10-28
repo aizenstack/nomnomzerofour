@@ -33,7 +33,6 @@ const createResson = async (req, res) => {
 
     res.status(201).json({ 
       success: true, 
-      message: "Resson created successfully",
       data: newResson
     });
   } catch (err) {
