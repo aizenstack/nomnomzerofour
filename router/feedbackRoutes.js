@@ -8,10 +8,9 @@ const { authMiddleware } = require('./utils/authMiddleware');
 
 const router = express.Router();
 
-router.use(authMiddleware);
 
-router.post("/feedback", addFeedback);
+router.post("/feedback",authMiddleware, addFeedback);
 router.get("/feedback", getAllFeedback);
-router.delete("/feedback/:id", deleteFeedback);
+router.delete("/feedback/:id",authMiddleware, deleteFeedback);
 
 module.exports = router;

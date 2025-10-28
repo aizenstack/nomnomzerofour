@@ -3,11 +3,10 @@ const router = express.Router();
 const { addDays, getAllDays, deleteDays, updateDays } = require('../controller/daysController');
 const { authMiddleware } = require('./utils/authMiddleware');
 
-router.use(authMiddleware);
 
 router.get('/days', getAllDays);
-router.post('/days', addDays);
-router.put('/days/:id', updateDays);
-router.delete('/days/:id', deleteDays);
+router.post('/days',authMiddleware, addDays);
+router.put('/days/:id',authMiddleware, updateDays);
+router.delete('/days/:id',authMiddleware, deleteDays);
 
 module.exports = router;
