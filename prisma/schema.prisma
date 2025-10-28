@@ -60,7 +60,6 @@ enum onPublish {
 model jadwal_jimpit {
   id        Int      @id @default(autoincrement())
   members   String
-  note      String
   dayId     Int
   day       days     @relation(fields: [dayId], references: [id])
   createdAt DateTime @default(now())

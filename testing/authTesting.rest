@@ -101,9 +101,9 @@ Content-Type: image/jpg
 ------WebKitFormoundary7MA4YWxkTrZu0gW--
 
 ###
-GET https://nomnomzerofour.vercel.app/nomfour/nomnomzerofour.vercel.app/nomfour/jimpit
+GET https://nomnomzerofour.vercel.app/nomfour/jimpit
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInVzZXJuYW1lIjoic3VwZXJhZG1pbiIsInJvbGUiOiJvd24iLCJpYXQiOjE3NjE1Mzc4OTksImV4cCI6MTc2MTU0MTQ5OX0.UKmmiLjJadiPJZ-YMjYQeUH1NrWq2IdP-90i5bHfyeg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInVzZXJuYW1lIjoic3VwZXJhZG1pbiIsInJvbGUiOiJvd24iLCJpYXQiOjE3NjE2NTExMTIsImV4cCI6MTc2MTY1NDcxMn0.Ky-utmcVp7Ndy8Jf5t0CxpAfzIClVs3jqlYJF2OyJy8
 
 ###
 POST https://nomnomzerofour.vercel.app/nomfour/noteds

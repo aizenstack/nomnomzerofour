@@ -150,7 +150,6 @@ exports.Prisma.News_postScalarFieldEnum = {
 exports.Prisma.Jadwal_jimpitScalarFieldEnum = {
   id: 'id',
   members: 'members',
-  note: 'note',
   dayId: 'dayId',
   createdAt: 'createdAt'
 };
