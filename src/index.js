@@ -13,8 +13,6 @@ const ressonRoutes = require("../router/ressonRoutes");
 const uploadRoutes = require("../router/uploadRoutes");
 const notedRoutes = require('../router/notedRoutes')
 
-const { authMiddleware } = require("../router/utils/authMiddleware");
-
 dotenv.config();
 
 const app = express();
