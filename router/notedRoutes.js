@@ -8,6 +8,6 @@ router.use(authMiddleware)
 router.get('/noteds', getAllNoted);
 router.post('/noteds', createNoted);
 router.patch('/noteds/:id', updateNoted);
-router.delete('/noted/:id', deleteNoted);
+router.delete('/noteds/:id', deleteNoted);
 
 module.exports = router;
