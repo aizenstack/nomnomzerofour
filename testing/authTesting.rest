@@ -103,7 +103,6 @@ Content-Type: image/jpg
 ###
 GET https://nomnomzerofour.vercel.app/nomfour/jimpit
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInVzZXJuYW1lIjoic3VwZXJhZG1pbiIsInJvbGUiOiJvd24iLCJpYXQiOjE3NjE2NTExMTIsImV4cCI6MTc2MTY1NDcxMn0.Ky-utmcVp7Ndy8Jf5t0CxpAfzIClVs3jqlYJF2OyJy8
 
 ###
 POST https://nomnomzerofour.vercel.app/nomfour/noteds
